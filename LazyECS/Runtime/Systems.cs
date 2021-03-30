@@ -19,17 +19,29 @@ namespace LazyECS
 
 		public virtual Systems Add(ISystem system)
 		{
-			if(system is IInitializeSystem initializeSystem)
+			if (system is IInitializeSystem initializeSystem)
+			{
 				initializeSystems.Add(initializeSystem);
-			
-			if(system is IUpdateSystem updateSystem)
+				return this;
+			}
+
+			if (system is IUpdateSystem updateSystem)
+			{
 				updateSystems.Add(updateSystem);
-			
-			if(system is ITeardownSystem teardownSystem)
+				return this;
+			}
+
+			if (system is ITeardownSystem teardownSystem)
+			{
 				teardownSystems.Add(teardownSystem);
-			
-			if(system is ICleanupSystem cleanupSystem)
+				return this;
+			}
+
+			if (system is ICleanupSystem cleanupSystem)
+			{
 				cleanupSystems.Add(cleanupSystem);
+				return this;
+			}
 
 			return this;
 		}
