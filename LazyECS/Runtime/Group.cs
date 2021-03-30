@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using LazyECS.Component;
 using LazyECS.Entity;
+using UnityEngine;
 
 namespace LazyECS
 {
@@ -9,17 +10,18 @@ namespace LazyECS
 	{
 		public HashSet<IEntity> Entities { get; }
 		public Type[] Filters { get; }
+		public GroupType GroupType { get; }
 
-		public Group(Type[] filters)
+		public Group(GroupType groupType, Type[] filters)
 		{
 			Filters = filters;
 			Entities = new HashSet<IEntity>();
+			GroupType = groupType;
 		}
 		
-		public void Update(IEntity entity)
+		public void ComponentAddedOrRemovedFromSomeEntity(IEntity entity)
 		{
-			if (Entities.Contains(entity))
-				return;
+			int matches = 0;
 			
 			foreach (KeyValuePair<Type,IComponent> component in entity.Components)
 			{
@@ -27,9 +29,30 @@ namespace LazyECS
 				{
 					if(component.Key == Filters[i1])
 					{
-						Entities.Add(entity);
-						break;
+						if (GroupType == GroupType.Any)
+						{
+							Entities.Add(entity);
+							return;
+						}
+						
+						matches++;
 					}
+				}
+			}
+
+			if (GroupType == GroupType.All)
+			{
+				if (matches != Filters.Length)
+				{
+					if (Entities.Contains(entity))
+					{
+						// The entity didnt contain any components we were looking for so remove it
+						Entities.Remove(entity);
+					}
+				}
+				else
+				{
+					Entities.Add(entity);
 				}
 			}
 		}

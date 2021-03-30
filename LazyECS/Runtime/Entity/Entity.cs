@@ -5,12 +5,15 @@ using LazyECS.Component;
 namespace LazyECS.Entity
 {
 	public delegate void ComponentAdded(IEntity entity);
+
+	public delegate void ComponentRemoved(IEntity entity);
 	
 	public abstract class Entity : IEntity
 	{
 		public Dictionary<Type, IComponent> Components { get; }
 
 		public event ComponentAdded OnComponentAdded;
+		public event ComponentRemoved OnComponentRemoved;
 		
 		public Entity()
 		{
@@ -32,6 +35,12 @@ namespace LazyECS.Entity
 		public bool Has<TComponent>() where TComponent : IComponent
 		{
 			return Components.ContainsKey(typeof(TComponent));
+		}
+
+		public void Remove<TComponent>() where TComponent : IComponent
+		{
+			Components.Remove(typeof(TComponent));
+			OnComponentRemoved?.Invoke(this);
 		}
 	}
 }

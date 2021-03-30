@@ -40,22 +40,23 @@ namespace LazyECS
 		public TEntity CreateEntity<TEntity>() where TEntity : IEntity, new()
 		{
 			TEntity newEntity = new TEntity();
-			newEntity.OnComponentAdded += GroupUpdate;
+			newEntity.OnComponentAdded += ComponentAddedOrRemovedFromSomeEntity;
+			newEntity.OnComponentRemoved += ComponentAddedOrRemovedFromSomeEntity;
 			return newEntity;
 		}
 
-		// Used to notify groups that a component changed
-		private void GroupUpdate(IEntity entity)
+		// Used to notify groups that a component was added or removed
+		private void ComponentAddedOrRemovedFromSomeEntity(IEntity entity)
 		{
 			for (var i = 0; i < Groups.Count; i++)
 			{
-				Groups[i].Update(entity);
+				Groups[i].ComponentAddedOrRemovedFromSomeEntity(entity);
 			}
 		}
 
-		public Group CreateGroup(Type[] filters)
+		public Group CreateGroup(GroupType groupType, Type[] filters)
 		{
-			Group newGroup = new Group(filters);
+			Group newGroup = new Group(groupType, filters);
 			Groups.Add(newGroup);
 			return newGroup;
 		}
