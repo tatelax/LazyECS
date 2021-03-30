@@ -1,6 +1,6 @@
 ﻿# About
 
-LazyECS is an ECS framework 
+LazyECS is an ECS framework designed to be quick to learn and implement while still remaining performant and scalable.
 
 
 
@@ -19,19 +19,14 @@ Systems are used to **Create** entities, **Delete** entities, and **Add/Remove**
 
 ## Initialize
 
-Text
+Initialize systems should be called at the start of the program (i.e. Start()/Awake()).
 
 ```csharp
 using LazyECS;
 using UnityEngine;
 
-public class TestInitializeSystem : IInitializeSystem
+public class FooInitializeSystem : IInitializeSystem
 {
-    public TestInitializeSystem(MainWorld world)
-    {
-        mainWorld = world;
-    }
-
     public void Initialize()
     {
         Debug.Log("Initialized!");
@@ -41,31 +36,74 @@ public class TestInitializeSystem : IInitializeSystem
 
 ## Update
 
-Text
+Update systems should be called every frame (i.e. Update()).
 
-```Text```
+```csharp
+using LazyECS;
+using UnityEngine;
 
+public class FooUpdateSystem : IUpdateSystem
+{    
+    public void Update() {
+        Debug.Log("Update!");
+    }
+}
+```
 ## Teardown
 
-Text
+Teardown systems should be called when your program quits (i.e. OnDisable()).
 
-```Text```
+```csharp
+using LazyECS;
+using UnityEngine;
+
+public class FooTeardownSystem : ITeardownSystem
+{
+	public void Teardown() {
+        Debug.Log("I tore down!");
+    }
+}
+```
+
+## Cleanup
+
+Cleanup systems should be called after Update systems run.
+
+```csharp
+using LazyECS;
+using UnityEngine;
+
+public class FooCleanupSystem : ICleanupSystem
+{   
+    public void Cleanup() {
+        Debug.Log("I cleaned up!");
+    }
+}
+```
 
 
 
 # Entities
 
-```Text```
+Text
 
-
+```csharp
+public class FooEntity : Entity { }
+```
 
 # Components
 
 Text
 
-```Text```
+```csharp
+using LazyECS;
+using UnityEngine;
 
-
+public class FooComponent : IComponent
+{
+    public string Value { get; }
+}
+```
 
 # Important Info
 
