@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LazyECS.Component;
 
 namespace LazyECS.Entity
@@ -7,34 +8,30 @@ namespace LazyECS.Entity
 	
 	public abstract class Entity : IEntity
 	{
-		public HashSet<IComponent> Components { get; }
+		public Dictionary<Type, IComponent> Components { get; }
 
 		public event ComponentAdded OnComponentAdded;
 		
 		public Entity()
 		{
-			Components = new HashSet<IComponent>();
+			Components = new Dictionary<Type, IComponent>();
 		}
 		
 		public void Add<TComponent>() where TComponent : IComponent, new()
 		{
 			TComponent component = new TComponent();
-			Components.Add(component);
+			Components.Add(component.GetType(), component);
 			OnComponentAdded?.Invoke(this);
 		}
 
 		public IComponent Get<TComponent>() where TComponent : IComponent
 		{
-			//TODO: Slow...maybe use dictionary for storing components
-			foreach (IComponent component in Components)
-			{
-				if (component is TComponent)
-				{
-					return component;
-				}
-			}
-			
-			return null;
+			return Components[typeof(TComponent)];
+		}
+
+		public bool Has<TComponent>() where TComponent : IComponent
+		{
+			return Components.ContainsKey(typeof(TComponent));
 		}
 	}
 }

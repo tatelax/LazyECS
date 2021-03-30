@@ -21,13 +21,11 @@ namespace LazyECS
 			if (Entities.Contains(entity))
 				return;
 			
-			foreach (IComponent component in entity.Components)
+			foreach (KeyValuePair<Type,IComponent> component in entity.Components)
 			{
-				Type type = component.GetType();
-				
 				for (int i1 = 0; i1 < Filters.Length; i1++)
 				{
-					if(type == Filters[i1])
+					if(component.Key == Filters[i1])
 					{
 						Entities.Add(entity);
 						break;
