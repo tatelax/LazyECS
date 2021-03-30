@@ -2,6 +2,8 @@
 
 LazyECS is an ECS framework 
 
+
+
 # Features
 
 * No codegen
@@ -19,7 +21,23 @@ Systems are used to **Create** entities, **Delete** entities, and **Add/Remove**
 
 Text
 
-```Text```
+```csharp
+using LazyECS;
+using UnityEngine;
+
+public class TestInitializeSystem : IInitializeSystem
+{
+    public TestInitializeSystem(MainWorld world)
+    {
+        mainWorld = world;
+    }
+
+    public void Initialize()
+    {
+        Debug.Log("Initialized!");
+    }
+}
+```
 
 ## Update
 
