@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using LazyECS.Component;
 
-namespace MirrorECS.Entity
+namespace LazyECS.Entity
 {
 	public interface IEntity
 	{

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using MirrorECS.Entity;
+using LazyECS.Entity;
 
-namespace MirrorECS
+namespace LazyECS
 {
 	public interface IWorld
 	{

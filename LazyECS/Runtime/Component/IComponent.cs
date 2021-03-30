@@ -1,4 +1,7 @@
-﻿public interface IComponent
+﻿namespace LazyECS.Component
 {
+	public interface IComponent
+	{
 	
+	}
 }

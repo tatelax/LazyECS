@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using MirrorECS.Entity;
+using LazyECS.Entity;
 
-public interface IGroup
+namespace LazyECS
 {
-	HashSet<IEntity> Entities { get; }
-	Type[] Filters { get; }
-	void Update(IEntity entity);
+	public interface IGroup
+	{
+		HashSet<IEntity> Entities { get; }
+		Type[] Filters { get; }
+		void Update(IEntity entity);
+	}
 }

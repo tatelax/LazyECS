@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
+using LazyECS.Component;
 
-namespace MirrorECS.Entity
+namespace LazyECS.Entity
 {
 	public delegate void ComponentAdded(IEntity entity);
 	

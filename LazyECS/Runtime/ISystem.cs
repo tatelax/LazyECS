@@ -1,4 +1,4 @@
-﻿namespace MirrorECS
+﻿namespace LazyECS
 {
 	public interface ISystem
 	{

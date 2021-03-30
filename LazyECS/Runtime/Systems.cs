@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MirrorECS
+namespace LazyECS
 {
 	public class Systems
 	{

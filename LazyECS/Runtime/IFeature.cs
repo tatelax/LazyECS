@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using MirrorECS;
-
-internal interface IFeature
+﻿namespace LazyECS
 {
-	void Setup();
-	void Initialize();
-	void Update();
-	Systems Systems { get; }
+	internal interface IFeature
+	{
+		void Setup();
+		void Initialize();
+		void Update();
+		Systems Systems { get; }
+	}
 }
