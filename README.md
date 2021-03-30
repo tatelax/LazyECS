@@ -2,6 +2,8 @@
 
 LazyECS is an ECS framework designed to be quick to learn and implement while still remaining performant and scalable.
 
+------
+
 
 
 # Features
