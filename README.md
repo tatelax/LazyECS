@@ -40,7 +40,8 @@ using UnityEngine;
 
 public class FooUpdateSystem : IUpdateSystem
 {    
-    public void Update() {
+    public void Update()
+    {
         Debug.Log("Update!");
     }
 }
@@ -55,7 +56,8 @@ using UnityEngine;
 
 public class FooTeardownSystem : ITeardownSystem
 {
-	public void Teardown() {
+	public void Teardown()
+    {
         Debug.Log("I tore down!");
     }
 }
@@ -71,7 +73,8 @@ using UnityEngine;
 
 public class FooCleanupSystem : ICleanupSystem
 {   
-    public void Cleanup() {
+    public void Cleanup()
+    {
         Debug.Log("I cleaned up!");
     }
 }
@@ -91,7 +94,6 @@ Text
 
 ```csharp
 using LazyECS;
-using UnityEngine;
 
 public class FooComponent : IComponent
 {
@@ -102,3 +104,7 @@ public class FooComponent : IComponent
 # Important Info
 
 * Lazy ECS is not production ready. There might be bugs.
+
+# Support
+
+You can contact me on Discord: ```tatelax#0001```
