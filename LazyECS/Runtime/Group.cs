@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LazyECS.Component;
 using LazyECS.Entity;
 
 namespace LazyECS
@@ -20,9 +21,9 @@ namespace LazyECS
 			if (Entities.Contains(entity))
 				return;
 			
-			for (int i = 0; i < entity.Components.Count; i++)
+			foreach (IComponent component in entity.Components)
 			{
-				Type type = entity.Components[i].GetType();
+				Type type = component.GetType();
 				
 				for (int i1 = 0; i1 < Filters.Length; i1++)
 				{

@@ -7,13 +7,13 @@ namespace LazyECS.Entity
 	
 	public abstract class Entity : IEntity
 	{
-		public List<IComponent> Components { get; }
+		public HashSet<IComponent> Components { get; }
 
 		public event ComponentAdded OnComponentAdded;
 		
 		public Entity()
 		{
-			Components = new List<IComponent>();
+			Components = new HashSet<IComponent>();
 		}
 		
 		public void AddComponent<TComponent>() where TComponent : IComponent, new()
