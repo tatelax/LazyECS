@@ -7,5 +7,7 @@ namespace LazyECS.Entity
 	{
 		HashSet<IComponent> Components { get; }
 		event ComponentAdded OnComponentAdded;
+		void Add<TComponent>() where TComponent : IComponent, new();
+		IComponent Get<TComponent>() where TComponent : IComponent;
 	}
 }

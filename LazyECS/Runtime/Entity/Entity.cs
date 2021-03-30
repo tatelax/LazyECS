@@ -16,11 +16,25 @@ namespace LazyECS.Entity
 			Components = new HashSet<IComponent>();
 		}
 		
-		public void AddComponent<TComponent>() where TComponent : IComponent, new()
+		public void Add<TComponent>() where TComponent : IComponent, new()
 		{
 			TComponent component = new TComponent();
 			Components.Add(component);
 			OnComponentAdded?.Invoke(this);
+		}
+
+		public IComponent Get<TComponent>() where TComponent : IComponent
+		{
+			//TODO: Slow...maybe use dictionary for storing components
+			foreach (IComponent component in Components)
+			{
+				if (component is TComponent)
+				{
+					return component;
+				}
+			}
+			
+			return null;
 		}
 	}
 }
