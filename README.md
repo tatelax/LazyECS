@@ -2,18 +2,12 @@
 
 LazyECS is an ECS framework designed to be quick to learn and implement while still remaining performant and scalable.
 
-------
-
-
-
 # Features
 
 * No codegen
 * Simple
 * Easy to learn (faster onboarding)
 * No Unity dependency
-
-
 
 # Systems
 
@@ -82,8 +76,6 @@ public class FooCleanupSystem : ICleanupSystem
     }
 }
 ```
-
-
 
 # Entities
 
