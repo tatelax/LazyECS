@@ -10,6 +10,8 @@ namespace LazyECS
 		List<Group> Groups { get; }
 		void Start();
 		void Update();
+		void Teardown();
+		void Cleanup();
 		Group CreateGroup(GroupType groupType, Type[] filters);
 	}
 }

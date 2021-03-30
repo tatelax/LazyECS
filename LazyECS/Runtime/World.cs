@@ -8,7 +8,7 @@ namespace LazyECS
 	{
 		protected Feature[] features;
 		private List<Entity.Entity> entities;
-		public List<Group> Groups { get; private set; }
+		public List<Group> Groups { get; }
 
 		protected World()
 		{
@@ -34,6 +34,22 @@ namespace LazyECS
 			foreach (IFeature feature in features)
 			{
 				feature.Update();
+			}
+		}
+
+		public void Teardown()
+		{
+			foreach (Feature feature in features)
+			{
+				feature.Teardown();
+			}
+		}
+
+		public void Cleanup()
+		{
+			foreach (Feature feature in features)
+			{
+				feature.Cleanup();
 			}
 		}
 

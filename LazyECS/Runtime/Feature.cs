@@ -23,5 +23,15 @@
 		{
 			Systems.Update();
 		}
+
+		public void Teardown()
+		{
+			Systems.Teardown();
+		}
+		
+		public void Cleanup()
+		{
+			Systems.Cleanup();
+		}
 	}
 }
