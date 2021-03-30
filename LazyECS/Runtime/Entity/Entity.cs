@@ -42,5 +42,11 @@ namespace LazyECS.Entity
 			Components.Remove(typeof(TComponent));
 			OnComponentRemoved?.Invoke(this);
 		}
+
+		public void Replace<TComponent>() where TComponent : IComponent, new()
+		{
+			Remove<TComponent>();
+			Add<TComponent>();
+		}
 	}
 }

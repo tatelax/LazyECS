@@ -13,5 +13,6 @@ namespace LazyECS.Entity
 		IComponent Get<TComponent>() where TComponent : IComponent;
 		bool Has<TComponent>() where TComponent : IComponent;
 		void Remove<TComponent>() where TComponent : IComponent;
+		void Replace<TComponent>() where TComponent : IComponent, new();
 	}
 }
