@@ -56,15 +56,16 @@ namespace LazyECS
 		public TEntity CreateEntity<TEntity>() where TEntity : IEntity, new()
 		{
 			TEntity newEntity = new TEntity();
-			newEntity.OnComponentAdded += ComponentAddedOrRemovedFromSomeEntity;
-			newEntity.OnComponentRemoved += ComponentAddedOrRemovedFromSomeEntity;
+			newEntity.OnComponentAdded += ComponentChangedOnAnEntity;
+			newEntity.OnComponentRemoved += ComponentChangedOnAnEntity;
+			newEntity.OnComponentSet += ComponentChangedOnAnEntity;
 			return newEntity;
 		}
 
-		// Used to notify groups that a component was added or removed
-		public void ComponentAddedOrRemovedFromSomeEntity(IEntity entity)
+		// Used to notify groups that a component was added/removed/changed
+		public void ComponentChangedOnAnEntity(IEntity entity)
 		{
-			for (var i = 0; i < Groups.Count; i++)
+			for (int i = 0; i < Groups.Count; i++)
 			{
 				Groups[i].ComponentAddedOrRemovedFromSomeEntity(entity);
 			}

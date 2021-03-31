@@ -6,6 +6,7 @@ namespace LazyECS.Entity
 {
 	public delegate void ComponentAdded(IEntity entity);
 	public delegate void ComponentRemoved(IEntity entity);
+	public delegate void ComponentSet(IEntity entity);
 	
 	public abstract class Entity : IEntity
 	{
@@ -13,8 +14,9 @@ namespace LazyECS.Entity
 
 		public event ComponentAdded OnComponentAdded;
 		public event ComponentRemoved OnComponentRemoved;
-		
-		public Entity()
+		public event ComponentSet OnComponentSet;
+
+		protected Entity()
 		{
 			Components = new Dictionary<Type, IComponent>();
 		}
@@ -47,6 +49,12 @@ namespace LazyECS.Entity
 		{
 			Remove<TComponent>();
 			Add<TComponent>();
+		}
+
+		public void Set<TComponent>(object value) where TComponent : IComponent
+		{
+			Components[typeof(TComponent)].Set(value);
+			OnComponentSet?.Invoke(this);
 		}
 	}
 }

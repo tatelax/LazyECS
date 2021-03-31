@@ -2,6 +2,6 @@
 {
 	public interface IComponent
 	{
-	
+		void Set(object value);
 	}
 }

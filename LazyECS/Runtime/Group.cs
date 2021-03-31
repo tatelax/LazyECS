@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using LazyECS.Component;
 using LazyECS.Entity;
-using UnityEngine;
 
 namespace LazyECS
 {
