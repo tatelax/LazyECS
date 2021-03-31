@@ -18,13 +18,13 @@ Entities, Systems, and Features exist inside of a world.
 ```csharp
 public class MainWorld : World
 {
-	public override void Init()
-	{
-		features = new Feature[]
-		{
-			new TestFeature()
-		};
-	}
+    public override void Init()
+    {
+        features = new Feature[]
+        {
+            new TestFeature()
+        };
+    }
 }
 ```
 # Features
@@ -32,14 +32,14 @@ Systems are organized inside of features
 ```csharp
 public class FooFeature : Feature
 {
-	public override void Setup()
-	{
-		Systems = new LazyECS.Systems()
-			.Add(new TestInitializeSystem())
-			.Add(new TestUpdateSystem())
-			.Add(new TestTeardownSystem())
-			.Add(new TestCleanupSystem());
-	}
+    public override void Setup()
+    {
+        Systems = new LazyECS.Systems()
+            .Add(new TestInitializeSystem())
+            .Add(new TestUpdateSystem())
+            .Add(new TestTeardownSystem())
+            .Add(new TestCleanupSystem());
+    }
 }
 ```
 
