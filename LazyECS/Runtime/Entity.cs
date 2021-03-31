@@ -5,7 +5,6 @@ using LazyECS.Component;
 namespace LazyECS.Entity
 {
 	public delegate void ComponentAdded(IEntity entity);
-
 	public delegate void ComponentRemoved(IEntity entity);
 	
 	public abstract class Entity : IEntity

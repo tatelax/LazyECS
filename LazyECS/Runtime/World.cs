@@ -62,7 +62,7 @@ namespace LazyECS
 		}
 
 		// Used to notify groups that a component was added or removed
-		private void ComponentAddedOrRemovedFromSomeEntity(IEntity entity)
+		public void ComponentAddedOrRemovedFromSomeEntity(IEntity entity)
 		{
 			for (var i = 0; i < Groups.Count; i++)
 			{

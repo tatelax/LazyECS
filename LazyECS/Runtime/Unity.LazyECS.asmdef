@@ -1,9 +1,6 @@
 {
     "name": "Unity.LazyECS",
-    "references": [
-        "GUID:2e7fda1a968b3ab4e80423403979bb6c",
-        "GUID:561d53b14f70a884cb71e7a152950af0"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
