@@ -12,6 +12,10 @@ LazyECS is an ECS framework designed to be quick to learn and implement while st
 # How to Install
 LazyECS can be installed via the Unity Package Manager.
 
+# Example Project
+
+[Here's an example project in Unity 2019.](https://github.com/tatelax/LazyECSExample)
+
 # Worlds
 
 Entities, Systems, and Features exist inside of a world.
@@ -28,7 +32,7 @@ public class MainWorld : World
 }
 ```
 # Features
-Systems are organized inside of features
+Systems are organized inside of features.
 ```csharp
 public class FooFeature : Feature
 {
