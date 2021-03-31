@@ -12,9 +12,40 @@ LazyECS is an ECS framework designed to be quick to learn and implement while st
 # How to Install
 LazyECS can be installed via the Unity Package Manager.
 
+# Worlds
+
+Entities, Systems, and Features exist inside of a world.
+```csharp
+public class MainWorld : World
+{
+	public override void Init()
+	{
+		features = new Feature[]
+		{
+			new TestFeature()
+		};
+	}
+}
+```
+# Features
+Systems are organized inside of features
+```csharp
+public class FooFeature : Feature
+{
+	public override void Setup()
+	{
+		Systems = new LazyECS.Systems()
+			.Add(new TestInitializeSystem())
+			.Add(new TestUpdateSystem())
+			.Add(new TestTeardownSystem())
+			.Add(new TestCleanupSystem());
+	}
+}
+```
+
 # Systems
 
-Systems are used to **Create** entities, **Delete** entities, and **Add/Remove** components to entities.
+Systems are used to **Create** entities, **Delete** entities, and **Add/Remove** components to entities. They also can contain your applications business logic.
 
 ## Initialize
 
@@ -108,9 +139,6 @@ public class FooComponent : IComponent
 }
 ```
 
-# Worlds
-
-Text
 
 # How To
 
@@ -136,8 +164,8 @@ newEntity.Remove<PositionComponent>();
 ```csharp
 Group fooGroup = mainWorld.CreateGroup(GroupType.All, new []
 {
-typeof(PositionComponent),
-typeof(HelloComponent)
+	typeof(PositionComponent),
+	typeof(HelloComponent)
 });
 ```
 ## See if an Entity has a Particular Component
