@@ -51,9 +51,16 @@ namespace LazyECS.Entity
 			Add<TComponent>();
 		}
 
-		public void Set<TComponent>(object value) where TComponent : IComponent
+		public void Set<TComponent>(object value) where TComponent : IComponent, new()
 		{
-			Components[typeof(TComponent)].Set(value);
+			Type compType = typeof(TComponent);
+
+			if (!Components.ContainsKey(compType))
+			{
+				Add<TComponent>();
+			}
+			
+			Components[compType].Set(value);
 			OnComponentSet?.Invoke(this);
 		}
 	}
