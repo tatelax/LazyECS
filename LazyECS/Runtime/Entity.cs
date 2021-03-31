@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LazyECS.Component;
+using UnityEngine;
 
 namespace LazyECS.Entity
 {
@@ -31,7 +32,14 @@ namespace LazyECS.Entity
 
 		public TComponent Get<TComponent>() where TComponent : IComponent
 		{
-			return (TComponent) Components[typeof(TComponent)];
+			Type compType = typeof(TComponent);
+			if (!Components.ContainsKey(compType))
+			{
+				Debug.LogWarning($"Tried to access component {compType} but the entity didn't have it!");
+				return default;
+			}
+			
+			return (TComponent) Components[compType];
 		}
 		
 		public bool Has<TComponent>() where TComponent : IComponent
