@@ -9,6 +9,9 @@ LazyECS is an ECS framework designed to be quick to learn and implement while st
 * Easy to learn (faster onboarding)
 * No Unity dependency
 
+# How to Install
+LazyECS can be installed via the Unity Package Manager.
+
 # Systems
 
 Systems are used to **Create** entities, **Delete** entities, and **Add/Remove** components to entities.
@@ -65,7 +68,7 @@ public class FooTeardownSystem : ITeardownSystem
 
 ## Cleanup
 
-Cleanup systems should be called after Update systems run.
+Cleanup systems should be called after Update systems run. These systems can be used to remove entities you no longer need. It's better to remove entities during the Cleanup phase so that loops are not manipulated while being iterated.
 
 ```csharp
 using LazyECS;
@@ -82,7 +85,7 @@ public class FooCleanupSystem : ICleanupSystem
 
 # Entities
 
-Text
+Entities are bits of memory used to store components.
 
 ```csharp
 public class FooEntity : Entity { }
@@ -90,15 +93,57 @@ public class FooEntity : Entity { }
 
 # Components
 
-Text
+Components are used to store data.
 
 ```csharp
 using LazyECS;
 
 public class FooComponent : IComponent
 {
-    public string Value { get; }
+    public string Value { get; private set; }
+    
+    public void Set(Vector3 pos) {
+        Value = pos;
+    }
 }
+```
+
+# Worlds
+
+Text
+
+# How To
+
+## Create an Entity
+
+Entities are created as part of a world. Access the world you want to create the entity in by any means you choose, such as **Dependency Injection**
+
+```csharp
+GameEntity newEntity = mainWorld.CreateEntity<GameEntity>
+```
+## Add a Component to an Entity
+
+```csharp
+newEntity.Add<PositionComponent>();
+```
+## Remove a Component from an Entity
+
+```csharp
+newEntity.Remove<PositionComponent>();
+```
+## Create a Group
+
+```csharp
+Group fooGroup = mainWorld.CreateGroup(GroupType.All, new []
+{
+typeof(PositionComponent),
+typeof(HelloComponent)
+});
+```
+## See if an Entity has a Particular Component
+
+```csharp
+gameEntity.Has<PositionComponent>();
 ```
 
 # Important Info
