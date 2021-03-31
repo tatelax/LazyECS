@@ -90,7 +90,7 @@ using UnityEngine;
 
 public class FooTeardownSystem : ITeardownSystem
 {
-	public void Teardown()
+    public void Teardown()
     {
         Debug.Log("I tore down!");
     }
