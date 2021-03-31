@@ -20,29 +20,30 @@ namespace LazyECS.Entity
 			Components = new Dictionary<Type, IComponent>();
 		}
 		
-		public void Add<TComponent>() where TComponent : IComponent, new()
+		public TComponent Add<TComponent>() where TComponent : IComponent, new()
 		{
 			TComponent component = new TComponent();
 			Components.Add(component.GetType(), component);
 			OnComponentAdded?.Invoke(this);
+			return component;
 		}
 
-		public IComponent Get<TComponent>() where TComponent : IComponent
+		public TComponent Get<TComponent>() where TComponent : IComponent
 		{
-			return Components[typeof(TComponent)];
+			return (TComponent) Components[typeof(TComponent)];
 		}
-
+		
 		public bool Has<TComponent>() where TComponent : IComponent
 		{
 			return Components.ContainsKey(typeof(TComponent));
 		}
-
+		
 		public void Remove<TComponent>() where TComponent : IComponent
 		{
 			Components.Remove(typeof(TComponent));
 			OnComponentRemoved?.Invoke(this);
 		}
-
+		
 		public void Replace<TComponent>() where TComponent : IComponent, new()
 		{
 			Remove<TComponent>();
