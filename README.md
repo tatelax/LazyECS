@@ -165,6 +165,10 @@ newEntity.Remove<PositionComponent>();
 ```
 ## Create a Group
 
+* GroupType.All - The entities in the group must contain **ALL** of the components in the array.
+
+* GroupType.Any - The entities in the group can contain **ANY** of the components in the array.
+
 ```csharp
 Group fooGroup = mainWorld.CreateGroup(GroupType.All, new []
 {

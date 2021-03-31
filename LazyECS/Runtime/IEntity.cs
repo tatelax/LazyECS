@@ -7,9 +7,11 @@ namespace LazyECS.Entity
 	public interface IEntity
 	{
 		Dictionary<Type, IComponent> Components { get; }
+		
 		event ComponentAdded OnComponentAdded;
 		event ComponentRemoved OnComponentRemoved;
 		event ComponentSet OnComponentSet;
+		
 		TComponent Add<TComponent>() where TComponent : IComponent, new();
 		TComponent Get<TComponent>() where TComponent : IComponent;
 		bool Has<TComponent>() where TComponent : IComponent;
