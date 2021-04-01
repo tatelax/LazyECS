@@ -144,7 +144,7 @@ public class FooComponent : IComponent
 ```
 
 
-# How To
+# How Do I?
 
 ## Create an Entity
 

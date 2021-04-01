@@ -7,13 +7,13 @@ namespace LazyECS
 	public abstract class World : IWorld
 	{
 		protected Feature[] features;
-		private List<Entity.Entity> entities;
+		public HashSet<IEntity> Entities { get; }
 		public List<Group> Groups { get; }
 
 		protected World()
 		{
 			Groups = new List<Group>();
-			entities = new List<Entity.Entity>();
+			Entities = new HashSet<IEntity>();
 		}
 
 		public virtual void Init()
@@ -59,7 +59,20 @@ namespace LazyECS
 			newEntity.OnComponentAdded += ComponentChangedOnAnEntity;
 			newEntity.OnComponentRemoved += ComponentChangedOnAnEntity;
 			newEntity.OnComponentSet += ComponentChangedOnAnEntity;
+			Entities.Add(newEntity);
 			return newEntity;
+		}
+
+		public bool DestroyEntity(Entity.Entity entity)
+		{
+			if (Entities.Contains(entity))
+			{
+				Entities.Remove(entity);
+				return true;
+			}
+
+			UnityEngine.Debug.LogWarning("Attempted to destroy entity but it doesn't exist!");
+			return false;
 		}
 
 		// Used to notify groups that a component was added/removed/changed

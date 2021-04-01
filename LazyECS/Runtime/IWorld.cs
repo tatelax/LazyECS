@@ -6,7 +6,9 @@ namespace LazyECS
 {
 	public interface IWorld
 	{
+		HashSet<IEntity> Entities { get; }
 		TEntity CreateEntity<TEntity>() where TEntity : IEntity, new();
+		bool DestroyEntity(Entity.Entity entity);
 		List<Group> Groups { get; }
 		void Start();
 		void Update();
