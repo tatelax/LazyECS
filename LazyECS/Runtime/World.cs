@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using LazyECS.Component;
 using LazyECS.Entity;
 
 namespace LazyECS
@@ -7,13 +8,13 @@ namespace LazyECS
 	public abstract class World : IWorld
 	{
 		protected Feature[] features;
-		public HashSet<IEntity> Entities { get; }
+		public Dictionary<int, IEntity> Entities { get; } //entity id, actual entity
 		public List<Group> Groups { get; }
 
 		protected World()
 		{
 			Groups = new List<Group>();
-			Entities = new HashSet<IEntity>();
+			Entities = new Dictionary<int, IEntity>();
 		}
 
 		public virtual void Init()
@@ -56,18 +57,20 @@ namespace LazyECS
 		public TEntity CreateEntity<TEntity>() where TEntity : IEntity, new()
 		{
 			TEntity newEntity = new TEntity();
-			newEntity.OnComponentAdded += ComponentChangedOnAnEntity;
-			newEntity.OnComponentRemoved += ComponentChangedOnAnEntity;
-			newEntity.OnComponentSet += ComponentChangedOnAnEntity;
-			Entities.Add(newEntity);
+			
+			newEntity.OnComponentAdded += ComponentAddedToEntity;
+			newEntity.OnComponentRemoved += ComponentRemovedFromEntity;
+			newEntity.OnComponentSet += ComponentSetOnEntity;
+			Entities.Add(newEntity.id, newEntity);
+			
 			return newEntity;
 		}
 
 		public bool DestroyEntity(Entity.Entity entity)
 		{
-			if (Entities.Contains(entity))
+			if (Entities.ContainsKey(entity.id))
 			{
-				Entities.Remove(entity);
+				Entities.Remove(entity.id);
 				return true;
 			}
 
@@ -75,16 +78,25 @@ namespace LazyECS
 			return false;
 		}
 
-		// Used to notify groups that a component was added/removed/changed
-		public void ComponentChangedOnAnEntity(IEntity entity)
+		public virtual void ComponentAddedToEntity(IEntity entity, IComponent component)
 		{
 			for (int i = 0; i < Groups.Count; i++)
 			{
-				Groups[i].ComponentAddedOrRemovedFromSomeEntity(entity);
+				Groups[i].ComponentAddedToEntity(entity, component);
 			}
 		}
 
-		public Group CreateGroup(GroupType groupType, Type[] filters)
+		public virtual void ComponentRemovedFromEntity(IEntity entity, IComponent component)
+		{
+			for (int i = 0; i < Groups.Count; i++)
+			{
+				Groups[i].ComponentRemovedFromEntity(entity, component);
+			}
+		}
+
+		public virtual void ComponentSetOnEntity(IEntity entity, IComponent component) {}
+
+		public Group CreateGroup(GroupType groupType, HashSet<IComponent> filters)
 		{
 			Group newGroup = new Group(groupType, filters);
 			Groups.Add(newGroup);

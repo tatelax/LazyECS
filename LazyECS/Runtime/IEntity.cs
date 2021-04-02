@@ -6,6 +6,7 @@ namespace LazyECS.Entity
 {
 	public interface IEntity
 	{
+		int id { get; }
 		Dictionary<Type, IComponent> Components { get; }
 		
 		event ComponentAdded OnComponentAdded;

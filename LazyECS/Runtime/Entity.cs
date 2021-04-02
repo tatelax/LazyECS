@@ -5,12 +5,13 @@ using UnityEngine;
 
 namespace LazyECS.Entity
 {
-	public delegate void ComponentAdded(IEntity entity);
-	public delegate void ComponentRemoved(IEntity entity);
-	public delegate void ComponentSet(IEntity entity);
+	public delegate void ComponentAdded(IEntity entity, IComponent component);
+	public delegate void ComponentRemoved(IEntity entity, IComponent component);
+	public delegate void ComponentSet(IEntity entity, IComponent component);
 	
 	public abstract class Entity : IEntity
 	{
+		public int id { get; }
 		public Dictionary<Type, IComponent> Components { get; }
 
 		public event ComponentAdded OnComponentAdded;
@@ -19,6 +20,7 @@ namespace LazyECS.Entity
 
 		protected Entity()
 		{
+			id = new System.Random().Next(0,9999999);
 			Components = new Dictionary<Type, IComponent>();
 		}
 		
@@ -26,7 +28,7 @@ namespace LazyECS.Entity
 		{
 			TComponent component = new TComponent();
 			Components.Add(component.GetType(), component);
-			OnComponentAdded?.Invoke(this);
+			OnComponentAdded?.Invoke(this, component);
 			return component;
 		}
 
@@ -49,8 +51,9 @@ namespace LazyECS.Entity
 		
 		public void Remove<TComponent>() where TComponent : IComponent
 		{
-			Components.Remove(typeof(TComponent));
-			OnComponentRemoved?.Invoke(this);
+			IComponent component = Components[typeof(TComponent)];
+			Components.Remove(component.GetType());
+			OnComponentRemoved?.Invoke(this, component);
 		}
 		
 		public void Replace<TComponent>() where TComponent : IComponent, new()
@@ -69,7 +72,7 @@ namespace LazyECS.Entity
 			}
 			
 			Components[compType].Set(value);
-			OnComponentSet?.Invoke(this);
+			OnComponentSet?.Invoke(this, Components[compType]);
 		}
 	}
 }

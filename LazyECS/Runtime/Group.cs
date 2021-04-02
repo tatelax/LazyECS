@@ -8,52 +8,68 @@ namespace LazyECS
 	public class Group : IGroup
 	{
 		public HashSet<IEntity> Entities { get; }
-		public Type[] Filters { get; }
+		public HashSet<IComponent> Filters { get; }
 		public GroupType GroupType { get; }
 
-		public Group(GroupType groupType, Type[] filters)
+		public Group(GroupType groupType, HashSet<IComponent> filters)
 		{
 			Filters = filters;
 			Entities = new HashSet<IEntity>();
 			GroupType = groupType;
 		}
-		
-		public void ComponentAddedOrRemovedFromSomeEntity(IEntity entity)
+
+		public void ComponentAddedToEntity(IEntity entity, IComponent component)
 		{
+			if (Entities.Contains(entity)) return;
+
+			if (GroupType == GroupType.Any)
+			{
+				if (Filters.Contains(component))
+				{
+					Entities.Add(entity);
+					return;
+				}
+			}
+
 			int matches = 0;
 			
-			foreach (KeyValuePair<Type,IComponent> component in entity.Components)
+			foreach (KeyValuePair<Type,IComponent> cmp in entity.Components)
 			{
-				for (int i1 = 0; i1 < Filters.Length; i1++)
+				foreach (IComponent filter in Filters)
 				{
-					if(component.Key == Filters[i1])
+					if (cmp.Value == filter)
 					{
-						if (GroupType == GroupType.Any)
-						{
-							Entities.Add(entity);
-							return;
-						}
-						
 						matches++;
 					}
 				}
 			}
 
+			if (matches == Filters.Count)
+			{
+				Entities.Add(entity);
+			}
+		}
+
+		public void ComponentRemovedFromEntity(IEntity entity, IComponent component)
+		{
 			if (GroupType == GroupType.All)
 			{
-				if (matches != Filters.Length)
+				if (Filters.Contains(component))
 				{
-					if (Entities.Contains(entity))
-					{
-						// The entity didnt contain any components we were looking for so remove it
-						Entities.Remove(entity);
-					}
-				}
-				else
-				{
-					Entities.Add(entity);
+					Entities.Remove(entity);
+					return;
 				}
 			}
+
+			foreach (KeyValuePair<Type,IComponent> cmp in entity.Components)
+			{
+				if (Filters.Contains(cmp.Value))
+				{
+					return;
+				}
+			}
+
+			Entities.Remove(entity);
 		}
 	}
 }
