@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace LazyECS.Entity
 {
-	public delegate void ComponentAdded(IEntity entity, IComponent component);
-	public delegate void ComponentRemoved(IEntity entity, IComponent component);
-	public delegate void ComponentSet(IEntity entity, IComponent component);
+	public delegate void ComponentAdded(Entity entity, IComponent component);
+	public delegate void ComponentRemoved(Entity entity, IComponent component);
+	public delegate void ComponentSet(Entity entity, IComponent component);
 	
-	public abstract class Entity : IEntity
+	public class Entity : IEntity
 	{
 		public int id { get; }
 		public Dictionary<Type, IComponent> Components { get; }
@@ -18,9 +18,10 @@ namespace LazyECS.Entity
 		public event ComponentRemoved OnComponentRemoved;
 		public event ComponentSet OnComponentSet;
 
-		protected Entity()
+		public Entity(int _id = default)
 		{
-			id = new System.Random().Next(0,9999999);
+			id = _id != default ? new System.Random().Next(0,9999999) : _id;
+
 			Components = new Dictionary<Type, IComponent>();
 		}
 		

@@ -7,18 +7,18 @@ namespace LazyECS
 {
 	public class Group : IGroup
 	{
-		public HashSet<IEntity> Entities { get; }
+		public HashSet<Entity.Entity> Entities { get; }
 		public HashSet<IComponent> Filters { get; }
 		public GroupType GroupType { get; }
 
 		public Group(GroupType groupType, HashSet<IComponent> filters)
 		{
 			Filters = filters;
-			Entities = new HashSet<IEntity>();
+			Entities = new HashSet<Entity.Entity>();
 			GroupType = groupType;
 		}
 
-		public void ComponentAddedToEntity(IEntity entity, IComponent component)
+		public void ComponentAddedToEntity(Entity.Entity entity, IComponent component)
 		{
 			if (Entities.Contains(entity)) return;
 
@@ -50,7 +50,7 @@ namespace LazyECS
 			}
 		}
 
-		public void ComponentRemovedFromEntity(IEntity entity, IComponent component)
+		public void ComponentRemovedFromEntity(Entity.Entity entity, IComponent component)
 		{
 			if (GroupType == GroupType.All)
 			{

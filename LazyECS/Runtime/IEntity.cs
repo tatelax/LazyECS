@@ -4,7 +4,7 @@ using LazyECS.Component;
 
 namespace LazyECS.Entity
 {
-	public interface IEntity
+	internal interface IEntity
 	{
 		int id { get; }
 		Dictionary<Type, IComponent> Components { get; }

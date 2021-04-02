@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using LazyECS.Component;
 using LazyECS.Entity;
 
@@ -8,13 +7,13 @@ namespace LazyECS
 	public abstract class World : IWorld
 	{
 		protected Feature[] features;
-		public Dictionary<int, IEntity> Entities { get; } //entity id, actual entity
+		public Dictionary<int, Entity.Entity> Entities { get; } //entity id, actual entity
 		public List<Group> Groups { get; }
 
 		protected World()
 		{
 			Groups = new List<Group>();
-			Entities = new Dictionary<int, IEntity>();
+			Entities = new Dictionary<int, Entity.Entity>();
 		}
 
 		public virtual void Init()
@@ -54,14 +53,15 @@ namespace LazyECS
 			}
 		}
 
-		public TEntity CreateEntity<TEntity>() where TEntity : IEntity, new()
+		public Entity.Entity CreateEntity(int id = default)
 		{
-			TEntity newEntity = new TEntity();
+			Entity.Entity newEntity = new Entity.Entity(id);
 			
-			newEntity.OnComponentAdded += ComponentAddedToEntity;
-			newEntity.OnComponentRemoved += ComponentRemovedFromEntity;
-			newEntity.OnComponentSet += ComponentSetOnEntity;
+			newEntity.OnComponentAdded += OnComponentAddedToEntity;
+			newEntity.OnComponentRemoved += OnComponentRemovedFromEntity;
+			newEntity.OnComponentSet += OnComponentSetOnEntity;
 			Entities.Add(newEntity.id, newEntity);
+			OnEntityCreated(newEntity);
 			
 			return newEntity;
 		}
@@ -78,7 +78,9 @@ namespace LazyECS
 			return false;
 		}
 
-		public virtual void ComponentAddedToEntity(IEntity entity, IComponent component)
+		public virtual void OnEntityCreated(Entity.Entity entity) { }
+
+		public virtual void OnComponentAddedToEntity(Entity.Entity entity, IComponent component)
 		{
 			for (int i = 0; i < Groups.Count; i++)
 			{
@@ -86,7 +88,7 @@ namespace LazyECS
 			}
 		}
 
-		public virtual void ComponentRemovedFromEntity(IEntity entity, IComponent component)
+		public virtual void OnComponentRemovedFromEntity(Entity.Entity entity, IComponent component)
 		{
 			for (int i = 0; i < Groups.Count; i++)
 			{
@@ -94,7 +96,7 @@ namespace LazyECS
 			}
 		}
 
-		public virtual void ComponentSetOnEntity(IEntity entity, IComponent component) {}
+		public virtual void OnComponentSetOnEntity(Entity.Entity entity, IComponent component) {}
 
 		public Group CreateGroup(GroupType groupType, HashSet<IComponent> filters)
 		{
