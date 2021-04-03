@@ -8,6 +8,8 @@ riderModule.iml
 
 .idea
 
+*.meta
+
 # User specific
 **/.idea/**/workspace.xml
 **/.idea/**/tasks.xml
