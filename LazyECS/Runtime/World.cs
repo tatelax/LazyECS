@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LazyECS.Component;
+using UnityEngine;
 
 namespace LazyECS
 {
@@ -51,17 +53,9 @@ namespace LazyECS
 
 		public Entity.Entity CreateEntity(int id = default)
 		{
-			Entity.Entity newEntity;
-			if (id != default)
-			{
-				newEntity = new Entity.Entity(id);
-			}
-			else
-			{
-				newEntity = new Entity.Entity();
-			}
+			Entity.Entity newEntity = id != default ? new Entity.Entity(id) : new Entity.Entity();
 			
-			UnityEngine.Debug.Log("Creating entity with id " + newEntity.id);
+			Debug.Log("Creating entity with id " + newEntity.id);
 			newEntity.OnComponentAdded += OnComponentAddedToEntity;
 			newEntity.OnComponentRemoved += OnComponentRemovedFromEntity;
 			newEntity.OnComponentSet += OnComponentSetOnEntity;
@@ -87,9 +81,10 @@ namespace LazyECS
 
 		public virtual void OnComponentAddedToEntity(Entity.Entity entity, IComponent component)
 		{
+			Debug.Log("component added to entity");
 			for (int i = 0; i < Groups.Count; i++)
 			{
-				Groups[i].ComponentAddedToEntity(entity, component);
+				Groups[i].ComponentAddedToEntity(entity, component.GetType());
 			}
 		}
 
@@ -97,13 +92,13 @@ namespace LazyECS
 		{
 			for (int i = 0; i < Groups.Count; i++)
 			{
-				Groups[i].ComponentRemovedFromEntity(entity, component);
+				Groups[i].ComponentRemovedFromEntity(entity, component.GetType());
 			}
 		}
 
 		public virtual void OnComponentSetOnEntity(Entity.Entity entity, IComponent component) {}
 
-		public Group CreateGroup(GroupType groupType, HashSet<IComponent> filters)
+		public Group CreateGroup(GroupType groupType, HashSet<Type> filters)
 		{
 			Group newGroup = new Group(groupType, filters);
 			Groups.Add(newGroup);

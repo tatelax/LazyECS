@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using LazyECS.Component;
 using LazyECS.Entity;
 
@@ -19,6 +20,6 @@ namespace LazyECS
 		void OnComponentAddedToEntity(Entity.Entity entity, IComponent component);
 		void OnComponentRemovedFromEntity(Entity.Entity entity, IComponent component);
 		void OnComponentSetOnEntity(Entity.Entity entity, IComponent component);
-		Group CreateGroup(GroupType groupType, HashSet<IComponent> filters);
+		Group CreateGroup(GroupType groupType, HashSet<Type> filters);
 	}
 }

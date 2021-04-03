@@ -1,25 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using LazyECS.Component;
-using LazyECS.Entity;
+using UnityEngine;
 
 namespace LazyECS
 {
 	public class Group : IGroup
 	{
 		public HashSet<Entity.Entity> Entities { get; }
-		public HashSet<IComponent> Filters { get; }
+		public HashSet<Type> Filters { get; }
 		public GroupType GroupType { get; }
 
-		public Group(GroupType groupType, HashSet<IComponent> filters)
+		public Group(GroupType groupType, HashSet<Type> filters)
 		{
 			Filters = filters;
 			Entities = new HashSet<Entity.Entity>();
 			GroupType = groupType;
 		}
 
-		public void ComponentAddedToEntity(Entity.Entity entity, IComponent component)
+		public void ComponentAddedToEntity(Entity.Entity entity, Type component)
 		{
+			Debug.Log("component added to entity");
 			if (Entities.Contains(entity)) return;
 
 			if (GroupType == GroupType.Any)
@@ -35,9 +36,9 @@ namespace LazyECS
 			
 			foreach (KeyValuePair<Type,IComponent> cmp in entity.Components)
 			{
-				foreach (IComponent filter in Filters)
+				foreach (Type filter in Filters)
 				{
-					if (cmp.Value == filter)
+					if (cmp.Key == filter)
 					{
 						matches++;
 					}
@@ -50,7 +51,7 @@ namespace LazyECS
 			}
 		}
 
-		public void ComponentRemovedFromEntity(Entity.Entity entity, IComponent component)
+		public void ComponentRemovedFromEntity(Entity.Entity entity, Type component)
 		{
 			if (GroupType == GroupType.All)
 			{
@@ -63,7 +64,7 @@ namespace LazyECS
 
 			foreach (KeyValuePair<Type,IComponent> cmp in entity.Components)
 			{
-				if (Filters.Contains(cmp.Value))
+				if (Filters.Contains(cmp.Key))
 				{
 					return;
 				}

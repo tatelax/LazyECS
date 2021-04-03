@@ -20,15 +20,36 @@ namespace LazyECS.Entity
 
 		public Entity(int _id = default)
 		{
+			//TODO: ID collision checking (proper id generation)
 			id = _id == default ? new System.Random().Next(0,9999999) : _id;
 
 			Components = new Dictionary<Type, IComponent>();
 		}
 		
+		/// <summary>
+		/// Add component by type
+		/// </summary>
+		/// <typeparam name="TComponent">Component type</typeparam>
+		/// <returns></returns>
 		public TComponent Add<TComponent>() where TComponent : IComponent, new()
 		{
 			TComponent component = new TComponent();
 			Components.Add(component.GetType(), component);
+			
+			OnComponentAdded?.Invoke(this, component);
+			return component;
+		}
+
+		/// <summary>
+		/// Add component by id
+		/// </summary>
+		/// <param name="componentId"></param>
+		public IComponent Add(int componentId)
+		{
+			IComponent component = (IComponent)Activator.CreateInstance(ComponentLookup.Get(componentId));
+			Components.Add(component.GetType(), component);
+			
+			Debug.Log($"added! {OnComponentAdded.GetInvocationList().Length}");
 			OnComponentAdded?.Invoke(this, component);
 			return component;
 		}
@@ -45,9 +66,24 @@ namespace LazyECS.Entity
 			return (TComponent) Components[compType];
 		}
 		
+		/// <summary>
+		/// Check if entity has a component by type
+		/// </summary>
+		/// <typeparam name="TComponent"></typeparam>
+		/// <returns></returns>
 		public bool Has<TComponent>() where TComponent : IComponent
 		{
 			return Components.ContainsKey(typeof(TComponent));
+		}
+
+		/// <summary>
+		/// Check if entity has a component by id
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		public bool Has(int id)
+		{
+			return Components.ContainsKey(ComponentLookup.Get(id));
 		}
 		
 		public void Remove<TComponent>() where TComponent : IComponent
