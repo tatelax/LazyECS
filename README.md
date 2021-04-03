@@ -189,7 +189,7 @@ gameEntity.Has<PositionComponent>();
 
 # Important Info
 
-* Lazy ECS is not production ready. There might be bugs.
+Lazy ECS is not production ready. There might be bugs.
 
 # Support
 
