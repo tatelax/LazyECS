@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using LazyECS.Component;
-using LazyECS.Entity;
 
 namespace LazyECS
 {
@@ -16,10 +15,7 @@ namespace LazyECS
 			Entities = new Dictionary<int, Entity.Entity>();
 		}
 
-		public virtual void Init()
-		{
-			throw new System.NotImplementedException();
-		}
+		public virtual void Init() { }
 
 		public void Start()
 		{
@@ -55,8 +51,17 @@ namespace LazyECS
 
 		public Entity.Entity CreateEntity(int id = default)
 		{
-			Entity.Entity newEntity = new Entity.Entity(id);
+			Entity.Entity newEntity;
+			if (id != default)
+			{
+				newEntity = new Entity.Entity(id);
+			}
+			else
+			{
+				newEntity = new Entity.Entity();
+			}
 			
+			UnityEngine.Debug.Log("Creating entity with id " + newEntity.id);
 			newEntity.OnComponentAdded += OnComponentAddedToEntity;
 			newEntity.OnComponentRemoved += OnComponentRemovedFromEntity;
 			newEntity.OnComponentSet += OnComponentSetOnEntity;

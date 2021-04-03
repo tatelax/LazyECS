@@ -7,6 +7,7 @@ namespace LazyECS
 	public interface IWorld
 	{
 		Dictionary<int, Entity.Entity> Entities { get; }
+		void Init();
 		Entity.Entity CreateEntity(int id = default);
 		bool DestroyEntity(Entity.Entity entity);
 		List<Group> Groups { get; }

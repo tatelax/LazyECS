@@ -20,7 +20,7 @@ namespace LazyECS.Entity
 
 		public Entity(int _id = default)
 		{
-			id = _id != default ? new System.Random().Next(0,9999999) : _id;
+			id = _id == default ? new System.Random().Next(0,9999999) : _id;
 
 			Components = new Dictionary<Type, IComponent>();
 		}
