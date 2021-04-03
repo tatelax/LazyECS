@@ -33,11 +33,10 @@
 //
 // Originally based on http://wiki.unity3d.com/index.php?title=Singleton
 
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 
-public class MonoBehaviourSingleton<T> : SerializedMonoBehaviour where T : MonoBehaviour
+public class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
 	/// <summary>
 	/// Safely checks whether the singleton instance is set.
