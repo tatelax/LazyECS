@@ -18,6 +18,12 @@ namespace LazyECS
 			GroupType = groupType;
 		}
 
+		public void EntityDestroyed(Entity.Entity entity)
+		{
+			if (Entities.Contains(entity))
+				Entities.Remove(entity);
+		}
+
 		public void ComponentAddedToEntity(Entity.Entity entity, Type component)
 		{
 			Debug.Log("component added to entity");

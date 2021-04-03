@@ -81,6 +81,7 @@ namespace LazyECS
 			if (Entities.ContainsKey(entity.id))
 			{
 				Entities.Remove(entity.id);
+				OnEntityDestroyed(entity);
 				return true;
 			}
 
@@ -97,6 +98,14 @@ namespace LazyECS
 		}
 
 		public virtual void OnEntityCreated(Entity.Entity entity) { }
+
+		public virtual void OnEntityDestroyed(Entity.Entity entity)
+		{
+			for (int i = 0; i < Groups.Count; i++)
+			{
+				Groups[i].EntityDestroyed(entity);
+			}
+		}
 
 		public virtual void OnComponentAddedToEntity(Entity.Entity entity, IComponent component)
 		{
