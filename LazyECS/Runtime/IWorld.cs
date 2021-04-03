@@ -10,7 +10,9 @@ namespace LazyECS
 		Dictionary<int, Entity.Entity> Entities { get; }
 		void Init();
 		Entity.Entity CreateEntity(int id = default);
+		bool DestroyEntity(int id);
 		bool DestroyEntity(Entity.Entity entity);
+		void DestroyAllEntities();
 		List<Group> Groups { get; }
 		void Start();
 		void Update();

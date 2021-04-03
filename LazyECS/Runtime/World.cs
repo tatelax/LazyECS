@@ -65,6 +65,17 @@ namespace LazyECS
 			return newEntity;
 		}
 
+		public bool DestroyEntity(int id)
+		{
+			if (!Entities.ContainsKey(id))
+			{
+				Debug.LogWarning("Attempted to destroy entity but it doesn't exist!");
+				return false;
+			}
+
+			return DestroyEntity(Entities[id]);
+		}
+		
 		public bool DestroyEntity(Entity.Entity entity)
 		{
 			if (Entities.ContainsKey(entity.id))
@@ -75,6 +86,14 @@ namespace LazyECS
 
 			UnityEngine.Debug.LogWarning("Attempted to destroy entity but it doesn't exist!");
 			return false;
+		}
+
+		public void DestroyAllEntities()
+		{
+			foreach (KeyValuePair<int,Entity.Entity> entity in Entities)
+			{
+				DestroyEntity(entity.Value);
+			}
 		}
 
 		public virtual void OnEntityCreated(Entity.Entity entity) { }
