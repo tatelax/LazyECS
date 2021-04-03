@@ -27,6 +27,19 @@ namespace LazyECS.Entity
 		}
 		
 		/// <summary>
+		/// Add component by id
+		/// </summary>
+		/// <param name="componentId"></param>
+		public IComponent Add(int componentId)
+		{
+			IComponent component = (IComponent)Activator.CreateInstance(ComponentLookup.Get(componentId));
+			Components.Add(component.GetType(), component);
+			
+			OnComponentAdded?.Invoke(this, component);
+			return component;
+		}
+		
+		/// <summary>
 		/// Add component by type
 		/// </summary>
 		/// <typeparam name="TComponent">Component type</typeparam>
@@ -36,20 +49,6 @@ namespace LazyECS.Entity
 			TComponent component = new TComponent();
 			Components.Add(component.GetType(), component);
 			
-			OnComponentAdded?.Invoke(this, component);
-			return component;
-		}
-
-		/// <summary>
-		/// Add component by id
-		/// </summary>
-		/// <param name="componentId"></param>
-		public IComponent Add(int componentId)
-		{
-			IComponent component = (IComponent)Activator.CreateInstance(ComponentLookup.Get(componentId));
-			Components.Add(component.GetType(), component);
-			
-			Debug.Log($"added! {OnComponentAdded.GetInvocationList().Length}");
 			OnComponentAdded?.Invoke(this, component);
 			return component;
 		}
@@ -84,6 +83,25 @@ namespace LazyECS.Entity
 		public bool Has(int id)
 		{
 			return Components.ContainsKey(ComponentLookup.Get(id));
+		}
+		
+		/// <summary>
+		/// Remove component by id
+		/// </summary>
+		/// <param name="componentId"></param>
+		public void Remove(int componentId)
+		{
+			Type component = ComponentLookup.Get(componentId);
+
+			if (!Components.ContainsKey(component))
+			{
+				Debug.LogWarning($"Tried to remove component {componentId} but the entity didn't have it!");
+				return;
+			}
+
+			IComponent cachedComponentBeforeRemoval = Components[component];
+			Components.Remove(component);
+			OnComponentRemoved?.Invoke(this, cachedComponentBeforeRemoval);
 		}
 		
 		public void Remove<TComponent>() where TComponent : IComponent

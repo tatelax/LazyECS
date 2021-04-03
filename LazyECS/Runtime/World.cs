@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using LazyECS.Component;
 using UnityEngine;
 
@@ -85,13 +86,13 @@ namespace LazyECS
 				return true;
 			}
 
-			UnityEngine.Debug.LogWarning("Attempted to destroy entity but it doesn't exist!");
+			Debug.LogWarning("Attempted to destroy entity but it doesn't exist!");
 			return false;
 		}
 
 		public void DestroyAllEntities()
 		{
-			foreach (KeyValuePair<int,Entity.Entity> entity in Entities)
+			foreach (KeyValuePair<int,Entity.Entity> entity in Entities.ToList())
 			{
 				DestroyEntity(entity.Value);
 			}
