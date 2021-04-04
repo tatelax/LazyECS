@@ -12,7 +12,7 @@ class WorldDebugger : EditorWindow
     [MenuItem("Tools/World Debugger")]
     public static void Init()
     {
-        WorldDebugger window = (WorldDebugger) GetWindow(typeof(WorldDebugger));
+        WorldDebugger window = (WorldDebugger) GetWindow(typeof(WorldDebugger), false, "World Debugger");
         window.Show();
     }
 
@@ -61,17 +61,30 @@ class WorldDebugger : EditorWindow
             int foldout = 0;
             foreach (KeyValuePair<Type,IWorld> world in simulationController.Worlds)
             {
-                foldoutsState[foldout] = EditorGUILayout.Foldout(foldoutsState[foldout], world.Value.GetType().Name, EditorStyles.foldout);
+                string worldFoldoutName = world.Value.GetType().Name
+                                          + " (Groups: "
+                                          + world.Value.Groups.Count
+                                          + ", Entities: "
+                                          + world.Value.Entities.Count
+                                          + ")";
+                
+                foldoutsState[foldout] = EditorGUILayout.Foldout(foldoutsState[foldout], worldFoldoutName, EditorStyles.foldout);
 
                 if (foldoutsState[foldout])
                 {
                     foreach (KeyValuePair<int,Entity> entity in world.Value.Entities)
                     {
                         string label = "Entity " + entity.Key + " (";
-
+                        
+                        int compCount = 0;
                         foreach (KeyValuePair<Type,IComponent> component in entity.Value.Components)
                         {
-                            label += component.Key.Name + ", ";
+                            label += component.Key.Name;
+
+                            if (compCount < entity.Value.Components.Count - 1)
+                                label += ", ";
+                            
+                            compCount++;
                         }
                         
                         label += ")";
