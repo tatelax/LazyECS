@@ -22,11 +22,6 @@ class WorldDebugger : EditorWindow
     private bool[] worldsFoldoutsState;
     private Vector2 scrollPos;
 
-    public void Awake()
-    {
-        worldsFoldoutsState = new bool[simulationController.Worlds.Count];
-    }
-
     private void OnGUI()
     {
         if (!EditorApplication.isPlaying)
@@ -56,8 +51,19 @@ class WorldDebugger : EditorWindow
             }
         }
 
-        // TODO: remove settings tab or something
-        // under world add 2 more foldouts for entities and groups
+        if (worldsFoldoutsState.Length == 0)
+            worldsFoldoutsState = new bool[simulationController.Worlds.Count];
+        
+        if (worldsFoldoutsState.Length == 0)
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            GUILayout.Label("No worlds found", EditorStyles.boldLabel);
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+                
+            return;
+        }
         
         string[] tabs = {"Worlds", "Settings"};
         currTab = GUILayout.Toolbar(currTab, tabs);
@@ -78,6 +84,8 @@ class WorldDebugger : EditorWindow
                                           + world.Value.Entities.Count
                                           + ")";
 
+                Debug.Log(worldFoldout);
+                Debug.Log(worldsFoldoutsState.Length);
                 worldsFoldoutsState[worldFoldout] = EditorGUILayout.Foldout(worldsFoldoutsState[worldFoldout], worldFoldoutName, EditorStyles.foldout);
 
                 if (worldsFoldoutsState[worldFoldout])
