@@ -190,6 +190,7 @@ gameEntity.Has<PositionComponent>();
 World Debugger is an editor window which can be used to view the current active worlds as well as the entities in that world and the components on that entity.
 
 It is accessed through ```Tools/World Debugger```
+
 ![WorldDebugger](https://raw.githubusercontent.com/tatelax/LazyECS/master/Images/worlddebugger.png)
 
 # Important Info
