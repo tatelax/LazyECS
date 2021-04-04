@@ -7,13 +7,13 @@ namespace LazyECS
 {
 	public interface IWorld
 	{
+		Feature[] Features { get; }
 		Dictionary<int, Entity.Entity> Entities { get; }
-		void Init();
+		List<Group> Groups { get; }
 		Entity.Entity CreateEntity(int id = default);
 		bool DestroyEntity(int id);
 		bool DestroyEntity(Entity.Entity entity);
 		void DestroyAllEntities();
-		List<Group> Groups { get; }
 		void Start();
 		void Update();
 		void Teardown();

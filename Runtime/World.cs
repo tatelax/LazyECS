@@ -8,7 +8,7 @@ namespace LazyECS
 {
 	public abstract class World : IWorld
 	{
-		protected Feature[] features;
+		public Feature[] Features { get; protected set; }
 		public Dictionary<int, Entity.Entity> Entities { get; } //entity id, actual entity
 		public List<Group> Groups { get; }
 
@@ -18,37 +18,35 @@ namespace LazyECS
 			Entities = new Dictionary<int, Entity.Entity>();
 		}
 
-		public virtual void Init() { }
-
 		public void Start()
 		{
-			foreach (IFeature feature in features)
+			for (int i = 0; i < Features.Length; i++)
 			{
-				feature.Initialize();
+				Features[i].Initialize();
 			}
 		}
 
 		public void Update()
 		{
-			foreach (IFeature feature in features)
+			for (int i = 0; i < Features.Length; i++)
 			{
-				feature.Update();
+				Features[i].Update();
+			}
+		}
+		
+		public void Cleanup()
+		{
+			for (int i = 0; i < Features.Length; i++)
+			{
+				Features[i].Cleanup();
 			}
 		}
 
 		public void Teardown()
 		{
-			foreach (Feature feature in features)
+			for (int i = 0; i < Features.Length; i++)
 			{
-				feature.Teardown();
-			}
-		}
-
-		public void Cleanup()
-		{
-			foreach (Feature feature in features)
-			{
-				feature.Cleanup();
+				Features[i].Teardown();
 			}
 		}
 

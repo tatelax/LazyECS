@@ -82,10 +82,10 @@ class WorldDebugger : EditorWindow
                                           + world.Value.Groups.Count
                                           + ", Entities: "
                                           + world.Value.Entities.Count
+                                          + ", Features: "
+                                          + world.Value.Features.Length
                                           + ")";
-
-                Debug.Log(worldFoldout);
-                Debug.Log(worldsFoldoutsState.Length);
+                
                 worldsFoldoutsState[worldFoldout] = EditorGUILayout.Foldout(worldsFoldoutsState[worldFoldout], worldFoldoutName, EditorStyles.foldout);
 
                 if (worldsFoldoutsState[worldFoldout])

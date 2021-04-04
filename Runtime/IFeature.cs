@@ -2,7 +2,6 @@
 {
 	internal interface IFeature
 	{
-		void Setup();
 		void Initialize();
 		void Update();
 		void Teardown();
