@@ -108,7 +108,7 @@ namespace LazyECS
 
 		public virtual void OnComponentAddedToEntity(Entity.Entity entity, IComponent component)
 		{
-			Debug.Log("component added to entity");
+			Debug.Log($"{component.GetType()} was added to {entity.id}");
 			for (int i = 0; i < Groups.Count; i++)
 			{
 				Groups[i].ComponentAddedToEntity(entity, component.GetType());

@@ -75,7 +75,7 @@ class WorldDebugger : EditorWindow
             
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
             
-            foreach (KeyValuePair<Type,IWorld> world in simulationController.Worlds)
+            foreach (KeyValuePair<int,IWorld> world in simulationController.Worlds)
             {
                 string worldFoldoutName = world.Value.GetType().Name
                                           + " (Groups: "

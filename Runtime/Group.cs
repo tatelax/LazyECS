@@ -26,7 +26,6 @@ namespace LazyECS
 
 		public void ComponentAddedToEntity(Entity.Entity entity, Type component)
 		{
-			Debug.Log("component added to entity");
 			if (Entities.Contains(entity)) return;
 
 			if (GroupType == GroupType.Any)
