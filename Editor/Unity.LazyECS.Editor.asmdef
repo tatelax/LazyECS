@@ -1,0 +1,17 @@
+{
+    "name": "Unity.",
+    "references": [
+        "GUID:f829098a39adf5641a5db89608bd75ee"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
