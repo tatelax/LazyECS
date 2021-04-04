@@ -22,6 +22,11 @@ class WorldDebugger : EditorWindow
     private bool[] worldsFoldoutsState;
     private Vector2 scrollPos;
 
+    public void Awake()
+    {
+        worldsFoldoutsState = new bool[simulationController.Worlds.Count];
+    }
+
     private void OnGUI()
     {
         if (!EditorApplication.isPlaying)
@@ -37,7 +42,7 @@ class WorldDebugger : EditorWindow
         
         if (simulationController == null)
         {
-            simulationController = GameObject.FindObjectOfType<SimulationController>();
+            simulationController = FindObjectOfType<SimulationController>();
 
             if (simulationController == null)
             {
@@ -59,10 +64,8 @@ class WorldDebugger : EditorWindow
 
         if (currTab == 0)
         {
-            if(worldsFoldoutsState.Length == 0)
-                worldsFoldoutsState = new bool[simulationController.Worlds.Count];
 
-            int foldout = 0;
+            int worldFoldout = 0;
             
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
             
@@ -75,9 +78,9 @@ class WorldDebugger : EditorWindow
                                           + world.Value.Entities.Count
                                           + ")";
 
-                worldsFoldoutsState[foldout] = EditorGUILayout.Foldout(worldsFoldoutsState[foldout], worldFoldoutName, EditorStyles.foldout);
+                worldsFoldoutsState[worldFoldout] = EditorGUILayout.Foldout(worldsFoldoutsState[worldFoldout], worldFoldoutName, EditorStyles.foldout);
 
-                if (worldsFoldoutsState[foldout])
+                if (worldsFoldoutsState[worldFoldout])
                 {
                     EditorGUI.indentLevel++;
                     EditorGUILayout.Foldout(true, "Groups (" + world.Value.Groups.Count + ")");
@@ -123,9 +126,10 @@ class WorldDebugger : EditorWindow
 
                         EditorGUILayout.LabelField(label);
                     }
+                    EditorGUI.indentLevel = 0;
                 }
             
-                foldout++;
+                worldFoldout++;
             }
             
             EditorGUILayout.EndScrollView();
