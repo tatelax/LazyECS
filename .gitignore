@@ -8,8 +8,6 @@ riderModule.iml
 
 .idea
 
-*.meta
-
 # User specific
 **/.idea/**/workspace.xml
 **/.idea/**/tasks.xml
@@ -405,3 +403,13 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+.idea/.idea.LazyECS/.idea/aws.xml
+.idea/.idea.LazyECS/.idea/codeStyles/codeStyleConfig.xml
+.idea/.idea.LazyECS/.idea/contentModel.xml
+.idea/.idea.LazyECS/.idea/encodings.xml
+.idea/.idea.LazyECS/.idea/indexLayout.xml
+.idea/.idea.LazyECS/.idea/modules.xml
+.idea/.idea.LazyECS/.idea/projectSettingsUpdater.xml
+.idea/.idea.LazyECS/.idea/vcs.xml
+.idea/.idea.LazyECS/.idea/workspace.xml
+.idea/.idea.LazyECS/riderModule.iml
