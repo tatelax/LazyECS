@@ -19,7 +19,8 @@ class WorldDebugger : EditorWindow
     [SerializeField]
     public SimulationController simulationController;
     private int currTab;
-    private bool[] foldoutsState;
+    private bool[] worldsFoldoutsState;
+    private Vector2 scrollPos;
 
     private void OnGUI()
     {
@@ -50,15 +51,21 @@ class WorldDebugger : EditorWindow
             }
         }
 
+        // TODO: remove settings tab or something
+        // under world add 2 more foldouts for entities and groups
+        
         string[] tabs = {"Worlds", "Settings"};
         currTab = GUILayout.Toolbar(currTab, tabs);
 
         if (currTab == 0)
         {
-            if(foldoutsState.Length == 0)
-                foldoutsState = new bool[simulationController.Worlds.Count];
+            if(worldsFoldoutsState.Length == 0)
+                worldsFoldoutsState = new bool[simulationController.Worlds.Count];
 
             int foldout = 0;
+            
+            scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
+            
             foreach (KeyValuePair<Type,IWorld> world in simulationController.Worlds)
             {
                 string worldFoldoutName = world.Value.GetType().Name
@@ -67,11 +74,36 @@ class WorldDebugger : EditorWindow
                                           + ", Entities: "
                                           + world.Value.Entities.Count
                                           + ")";
-                
-                foldoutsState[foldout] = EditorGUILayout.Foldout(foldoutsState[foldout], worldFoldoutName, EditorStyles.foldout);
 
-                if (foldoutsState[foldout])
+                worldsFoldoutsState[foldout] = EditorGUILayout.Foldout(worldsFoldoutsState[foldout], worldFoldoutName, EditorStyles.foldout);
+
+                if (worldsFoldoutsState[foldout])
                 {
+                    EditorGUI.indentLevel++;
+                    EditorGUILayout.Foldout(true, "Groups (" + world.Value.Groups.Count + ")");
+                    EditorGUI.indentLevel++;
+                    int groupCount = 0;
+                    foreach (Group group in world.Value.Groups)
+                    {
+                        string label = "Group " + groupCount + " entities: " + group.Entities.Count + ", filters (" + group.Filters.Count + ") : ";
+                        
+                        int compCount = 0;
+                        foreach (Type filter in group.Filters)
+                        {
+                            label += filter.Name;
+
+                            if (compCount < group.Filters.Count - 1)
+                                label += ", ";
+                            
+                            compCount++;
+                        }
+                        
+                        EditorGUILayout.LabelField(label);
+                        groupCount++;
+                    }                    
+                    EditorGUI.indentLevel--;
+                    EditorGUILayout.Foldout(true, "Entities (" + world.Value.Entities.Count + ")");
+                    EditorGUI.indentLevel++;
                     foreach (KeyValuePair<int,Entity> entity in world.Value.Entities)
                     {
                         string label = "Entity " + entity.Key + " (";
@@ -88,12 +120,15 @@ class WorldDebugger : EditorWindow
                         }
                         
                         label += ")";
-                        GUILayout.Label(label);
+
+                        EditorGUILayout.LabelField(label);
                     }
                 }
             
                 foldout++;
             }
+            
+            EditorGUILayout.EndScrollView();
         }
     }
 
