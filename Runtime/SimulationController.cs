@@ -11,8 +11,8 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 		
 		ComponentLookup.Init();
 	}
-	
-	public void InitializeWorlds(IWorld[] worlds)
+
+	protected void InitializeWorlds(IWorld[] worlds)
 	{
 		Worlds = new Dictionary<int, IWorld>();
 		

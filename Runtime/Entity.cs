@@ -7,7 +7,7 @@ namespace LazyECS.Entity
 {
 	public delegate void ComponentAdded(Entity entity, IComponent component);
 	public delegate void ComponentRemoved(Entity entity, IComponent component);
-	public delegate void ComponentSet(Entity entity, IComponent component);
+	public delegate void ComponentSet(Entity entity, IComponent component, bool setFromNetworkMessage);
 	
 	public class Entity : IEntity
 	{
@@ -117,7 +117,7 @@ namespace LazyECS.Entity
 			Add<TComponent>();
 		}
 
-		public void Set<TComponent>(object value) where TComponent : IComponent, new()
+		public void Set<TComponent>(object value, bool setFromNetworkMessage = false) where TComponent : IComponent, new()
 		{
 			Type compType = typeof(TComponent);
 
@@ -127,7 +127,7 @@ namespace LazyECS.Entity
 			}
 			
 			Components[compType].Set(value);
-			OnComponentSet?.Invoke(this, Components[compType]);
+			OnComponentSet?.Invoke(this, Components[compType], setFromNetworkMessage);
 		}
 	}
 }

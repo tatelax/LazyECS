@@ -10,7 +10,7 @@ namespace LazyECS
 		Feature[] Features { get; }
 		Dictionary<int, Entity.Entity> Entities { get; }
 		List<Group> Groups { get; }
-		Entity.Entity CreateEntity(int id = default);
+		Entity.Entity CreateEntity(int id = default, bool entityCreatedFromNetworkMessage = false);
 		bool DestroyEntity(int id);
 		bool DestroyEntity(Entity.Entity entity);
 		void DestroyAllEntities();
@@ -18,10 +18,10 @@ namespace LazyECS
 		void Update();
 		void Teardown();
 		void Cleanup();
-		void OnEntityCreated(Entity.Entity entity);
+		void OnEntityCreated(Entity.Entity entity, bool entityCreatedFromNetworkMessage);
 		void OnComponentAddedToEntity(Entity.Entity entity, IComponent component);
 		void OnComponentRemovedFromEntity(Entity.Entity entity, IComponent component);
-		void OnComponentSetOnEntity(Entity.Entity entity, IComponent component);
+		void OnComponentSetOnEntity(Entity.Entity entity, IComponent component, bool setFromNetworkMessage);
 		Group CreateGroup(GroupType groupType, HashSet<Type> filters);
 	}
 }

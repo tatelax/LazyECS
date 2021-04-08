@@ -50,7 +50,7 @@ namespace LazyECS
 			}
 		}
 
-		public Entity.Entity CreateEntity(int id = default)
+		public Entity.Entity CreateEntity(int id = default, bool entityCreatedFromNetworkMessage = false)
 		{
 			Entity.Entity newEntity = id != default ? new Entity.Entity(id) : new Entity.Entity();
 			
@@ -59,7 +59,7 @@ namespace LazyECS
 			newEntity.OnComponentRemoved += OnComponentRemovedFromEntity;
 			newEntity.OnComponentSet += OnComponentSetOnEntity;
 			Entities.Add(newEntity.id, newEntity);
-			OnEntityCreated(newEntity);
+			OnEntityCreated(newEntity, entityCreatedFromNetworkMessage);
 			
 			return newEntity;
 		}
@@ -96,7 +96,7 @@ namespace LazyECS
 			}
 		}
 
-		public virtual void OnEntityCreated(Entity.Entity entity) { }
+		public virtual void OnEntityCreated(Entity.Entity entity, bool entityCreatedFromNetworkMessage) { }
 
 		public virtual void OnEntityDestroyed(Entity.Entity entity)
 		{
@@ -123,7 +123,7 @@ namespace LazyECS
 			}
 		}
 
-		public virtual void OnComponentSetOnEntity(Entity.Entity entity, IComponent component) {}
+		public virtual void OnComponentSetOnEntity(Entity.Entity entity, IComponent component, bool setFromNetworkMessage = false) {}
 
 		public Group CreateGroup(GroupType groupType, HashSet<Type> filters)
 		{
