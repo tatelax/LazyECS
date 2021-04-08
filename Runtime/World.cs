@@ -64,7 +64,7 @@ namespace LazyECS
 			return newEntity;
 		}
 
-		public bool DestroyEntity(int id)
+		public bool DestroyEntity(int id, bool entityDestroyedFromNetworkMessage = false)
 		{
 			if (!Entities.ContainsKey(id))
 			{
@@ -72,15 +72,15 @@ namespace LazyECS
 				return false;
 			}
 
-			return DestroyEntity(Entities[id]);
+			return DestroyEntity(Entities[id], entityDestroyedFromNetworkMessage);
 		}
 		
-		public bool DestroyEntity(Entity.Entity entity)
+		public bool DestroyEntity(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false)
 		{
 			if (Entities.ContainsKey(entity.id))
 			{
 				Entities.Remove(entity.id);
-				OnEntityDestroyed(entity);
+				OnEntityDestroyed(entity, entityDestroyedFromNetworkMessage);
 				return true;
 			}
 
@@ -98,7 +98,7 @@ namespace LazyECS
 
 		public virtual void OnEntityCreated(Entity.Entity entity, bool entityCreatedFromNetworkMessage) { }
 
-		public virtual void OnEntityDestroyed(Entity.Entity entity)
+		public virtual void OnEntityDestroyed(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false)
 		{
 			for (int i = 0; i < Groups.Count; i++)
 			{
