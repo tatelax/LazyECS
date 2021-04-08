@@ -5,5 +5,6 @@
 	public interface IComponent
 	{
 		void Set(object value);
+		object Get();
 	}
 }

@@ -53,6 +53,29 @@ namespace LazyECS.Entity
 			return component;
 		}
 
+		public IComponent Get(int id)
+		{
+			Type compType = ComponentLookup.Get(id);
+			if (!Components.ContainsKey(compType))
+			{
+				Debug.LogWarning($"Tried to access component {compType} but the entity didn't have it!");
+				return default;
+			}
+
+			return Components[compType];
+		}
+
+		public IComponent Get(Type type)
+		{
+			if (!Components.ContainsKey(type))
+			{
+				Debug.LogWarning($"Tried to access component {type} but the entity didn't have it!");
+				return default;
+			}
+
+			return Components[type];
+		}
+		
 		public TComponent Get<TComponent>() where TComponent : IComponent
 		{
 			Type compType = typeof(TComponent);
@@ -66,16 +89,6 @@ namespace LazyECS.Entity
 		}
 		
 		/// <summary>
-		/// Check if entity has a component by type
-		/// </summary>
-		/// <typeparam name="TComponent"></typeparam>
-		/// <returns></returns>
-		public bool Has<TComponent>() where TComponent : IComponent
-		{
-			return Components.ContainsKey(typeof(TComponent));
-		}
-
-		/// <summary>
 		/// Check if entity has a component by id
 		/// </summary>
 		/// <param name="id"></param>
@@ -83,6 +96,16 @@ namespace LazyECS.Entity
 		public bool Has(int id)
 		{
 			return Components.ContainsKey(ComponentLookup.Get(id));
+		}
+		
+		/// <summary>
+		/// Check if entity has a component by type
+		/// </summary>
+		/// <typeparam name="TComponent"></typeparam>
+		/// <returns></returns>
+		public bool Has<TComponent>() where TComponent : IComponent
+		{
+			return Components.ContainsKey(typeof(TComponent));
 		}
 		
 		/// <summary>
@@ -124,6 +147,19 @@ namespace LazyECS.Entity
 			if (!Components.ContainsKey(compType))
 			{
 				Add<TComponent>();
+			}
+			
+			Components[compType].Set(value);
+			OnComponentSet?.Invoke(this, Components[compType], setFromNetworkMessage);
+		}
+
+		public void Set(int id, object value, bool setFromNetworkMessage = false)
+		{
+			Type compType = ComponentLookup.Get(id);
+			
+			if (!Components.ContainsKey(compType))
+			{
+				Add(id);
 			}
 			
 			Components[compType].Set(value);
