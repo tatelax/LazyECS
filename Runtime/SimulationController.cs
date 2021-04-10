@@ -12,6 +12,31 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 		ComponentLookup.Init();
 	}
 
+	protected void Start()
+	{
+		foreach (KeyValuePair<int,IWorld> world in Worlds)
+		{
+			world.Value.Start();
+		}
+	}
+
+	protected virtual void Update()
+	{
+		foreach (KeyValuePair<int,IWorld> world in Worlds)
+		{
+			world.Value.Update();
+			world.Value.Cleanup();
+		}
+	}
+
+	protected void OnDisable()
+	{
+		foreach (KeyValuePair<int,IWorld> world in Worlds)
+		{
+			world.Value.Teardown();
+		}
+	}
+
 	protected void InitializeWorlds(IWorld[] worlds)
 	{
 		Worlds = new Dictionary<int, IWorld>();
