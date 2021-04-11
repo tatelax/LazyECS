@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using LazyECS;
 
 public class SimulationController : MonoBehaviourSingleton<SimulationController>
@@ -50,5 +51,10 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 	public IWorld GetWorld(int id)
 	{
 		return Worlds[id];
+	}
+
+	public int GetWorldId(IWorld world)
+	{
+		return Worlds.First(x => x.Value == world).Key;
 	}
 }

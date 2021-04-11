@@ -17,8 +17,8 @@ namespace LazyECS
 			Groups = new List<Group>();
 			Entities = new Dictionary<int, Entity.Entity>();
 		}
-
-		public void Start()
+		
+		public virtual void Start()
 		{
 			for (int i = 0; i < Features.Length; i++)
 			{
@@ -26,7 +26,7 @@ namespace LazyECS
 			}
 		}
 
-		public void Update()
+		public virtual void Update()
 		{
 			for (int i = 0; i < Features.Length; i++)
 			{
@@ -34,7 +34,7 @@ namespace LazyECS
 			}
 		}
 		
-		public void Cleanup()
+		public virtual void Cleanup()
 		{
 			for (int i = 0; i < Features.Length; i++)
 			{
@@ -42,7 +42,7 @@ namespace LazyECS
 			}
 		}
 
-		public void Teardown()
+		public virtual void Teardown()
 		{
 			for (int i = 0; i < Features.Length; i++)
 			{

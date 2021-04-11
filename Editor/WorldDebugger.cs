@@ -167,8 +167,6 @@ class WorldDebugger : EditorWindow
                             EditorGUILayout.Foldout(true, component.Key.Name);
                             EditorGUI.indentLevel++;
                             
-                            Debug.Log(component.Value.Get().GetType().ToString());
-                            
                             switch (component.Value.Get().GetType().Name)
                             {
                                 case "Int16":
