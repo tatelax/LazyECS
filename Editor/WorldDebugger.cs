@@ -75,8 +75,10 @@ class WorldDebugger : EditorWindow
             }
         }
 
-        if (worldsFoldoutsState.Length == 0)
+        if (worldsFoldoutsState.Length != simulationController.Worlds.Count)
+        {
             worldsFoldoutsState = new bool[simulationController.Worlds.Count];
+        }
         
         if (worldsFoldoutsState.Length == 0)
         {
@@ -94,7 +96,6 @@ class WorldDebugger : EditorWindow
 
         if (currTab == 0)
         {
-
             int worldFoldout = 0;
             
             scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
