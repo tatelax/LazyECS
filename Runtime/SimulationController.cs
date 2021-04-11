@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LazyECS;
 
@@ -51,6 +52,11 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 	public IWorld GetWorld(int id)
 	{
 		return Worlds[id];
+	}
+
+	public IWorld GetWorld<T>() where T : IWorld
+	{
+		return Worlds.First(x => x.Value.GetType() == typeof(T)).Value;
 	}
 
 	public int GetWorldId(IWorld world)
