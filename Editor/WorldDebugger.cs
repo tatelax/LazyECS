@@ -171,14 +171,17 @@ class WorldDebugger : EditorWindow
                             
                             switch (component.Value.Get().GetType().Name)
                             {
-                                case "Int":
+                                case "Int16":
+                                case "Int32":
                                     EditorGUILayout.SelectableLabel(((int)component.Value.Get()).ToString());
                                     break;
-                                case "Float":
+                                case "Single":
+                                case "Double":
+                                case "Long":
                                     EditorGUILayout.SelectableLabel(((float)component.Value.Get()).ToString(CultureInfo.InvariantCulture));
                                     break;
-                                case "Bool":
-                                    EditorGUILayout.SelectableLabel(((bool)component.Value.Get()).ToString(CultureInfo.InvariantCulture));
+                                case "Boolean":
+                                    EditorGUILayout.Toggle(((bool)component.Value.Get()));
                                     break;
                                 case "String":
                                     EditorGUILayout.SelectableLabel(((string)component.Value.Get()));
