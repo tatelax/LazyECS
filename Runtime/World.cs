@@ -16,6 +16,7 @@ namespace LazyECS
 		{
 			Groups = new List<Group>();
 			Entities = new Dictionary<int, Entity.Entity>();
+			Features = new Feature[]{};
 		}
 		
 		public virtual void Start()
