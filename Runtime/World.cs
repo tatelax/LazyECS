@@ -12,6 +12,18 @@ namespace LazyECS
 		public Dictionary<int, Entity.Entity> Entities { get; } //entity id, actual entity
 		public List<Group> Groups { get; }
 
+		public delegate void EntityCreatedEvent(Entity.Entity entity, bool entityCreatedFromNetworkMessage);
+		public delegate void EntityDestroyedEvent(Entity.Entity entity, bool entityDestroyedFromNetworkMessage);
+		public delegate void ComponentAddedToEntity(Entity.Entity entity, IComponent component);
+		public delegate void ComponentRemovedFromEntity(Entity.Entity entity, IComponent component);
+		public delegate void ComponentSetOnEntity(Entity.Entity entity, IComponent component, bool setFromNetworkMessage);
+		
+		public event EntityCreatedEvent OnEntityCreatedEvent;
+		public event EntityDestroyedEvent OnEntityDestroyedEvent;
+		public event ComponentAddedToEntity OnComponentAddedToEntityEvent;
+		public event ComponentRemovedFromEntity OnComponentRemovedFromEntityEvent;
+		public event ComponentSetOnEntity OnComponentSetOnEntityEvent;
+
 		protected World()
 		{
 			Groups = new List<Group>();
@@ -97,7 +109,10 @@ namespace LazyECS
 			}
 		}
 
-		public virtual void OnEntityCreated(Entity.Entity entity, bool entityCreatedFromNetworkMessage) { }
+		public virtual void OnEntityCreated(Entity.Entity entity, bool entityCreatedFromNetworkMessage)
+		{
+			OnEntityCreatedEvent?.Invoke(entity, entityCreatedFromNetworkMessage);
+		}
 
 		public virtual void OnEntityDestroyed(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false)
 		{
@@ -105,6 +120,8 @@ namespace LazyECS
 			{
 				Groups[i].EntityDestroyed(entity);
 			}
+
+			OnEntityDestroyedEvent?.Invoke(entity, entityDestroyedFromNetworkMessage);
 		}
 
 		public virtual void OnComponentAddedToEntity(Entity.Entity entity, IComponent component)
@@ -114,6 +131,8 @@ namespace LazyECS
 			{
 				Groups[i].ComponentAddedToEntity(entity, component.GetType());
 			}
+			
+			OnComponentAddedToEntityEvent?.Invoke(entity, component);
 		}
 
 		public virtual void OnComponentRemovedFromEntity(Entity.Entity entity, IComponent component)
@@ -122,9 +141,14 @@ namespace LazyECS
 			{
 				Groups[i].ComponentRemovedFromEntity(entity, component.GetType());
 			}
+			
+			OnComponentRemovedFromEntityEvent?.Invoke(entity, component);
 		}
 
-		public virtual void OnComponentSetOnEntity(Entity.Entity entity, IComponent component, bool setFromNetworkMessage = false) {}
+		public virtual void OnComponentSetOnEntity(Entity.Entity entity, IComponent component, bool setFromNetworkMessage = false)
+		{
+			OnComponentSetOnEntityEvent?.Invoke(entity, component, setFromNetworkMessage);
+		}
 
 		public Group CreateGroup(GroupType groupType, HashSet<Type> filters)
 		{

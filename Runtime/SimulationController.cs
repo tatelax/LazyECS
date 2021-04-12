@@ -6,6 +6,7 @@ using LazyECS;
 public class SimulationController : MonoBehaviourSingleton<SimulationController>
 {
 	public Dictionary<int, IWorld> Worlds { get; private set; }
+	public event EventHandler OnWorldsInitialized;
 
 	protected override void Awake()
 	{
@@ -47,6 +48,8 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 		{
 			Worlds.Add(i, worlds[i]);
 		}
+		
+		OnWorldsInitialized?.Invoke(this, EventArgs.Empty);
 	}
 
 	public IWorld GetWorld(int id)

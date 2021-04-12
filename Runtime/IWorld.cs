@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using LazyECS.Component;
-using LazyECS.Entity;
 
 namespace LazyECS
 {
@@ -10,6 +9,13 @@ namespace LazyECS
 		Feature[] Features { get; }
 		Dictionary<int, Entity.Entity> Entities { get; }
 		List<Group> Groups { get; }
+		
+		event World.EntityCreatedEvent OnEntityCreatedEvent;
+		event World.EntityDestroyedEvent OnEntityDestroyedEvent;
+		event World.ComponentAddedToEntity OnComponentAddedToEntityEvent;
+		event World.ComponentRemovedFromEntity OnComponentRemovedFromEntityEvent;
+		event World.ComponentSetOnEntity OnComponentSetOnEntityEvent;
+		
 		Entity.Entity CreateEntity(int id = default, bool entityCreatedFromNetworkMessage = false);
 		bool DestroyEntity(int id, bool entityDestroyedFromNetworkMessage = false);
 		bool DestroyEntity(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false);
