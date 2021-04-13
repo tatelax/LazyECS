@@ -168,10 +168,6 @@ class WorldDebugger : EditorWindow
                             EditorGUILayout.Foldout(true, component.Key.Name);
                             EditorGUI.indentLevel++;
                             
-                            Debug.Log(component.Value);
-                            Debug.Log(component);
-                            Debug.Log(component.Value.Get());
-
                             if (component.Value.Get() == null) continue;
                             
                             switch (component.Value.Get().GetType().Name)

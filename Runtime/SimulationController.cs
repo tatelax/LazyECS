@@ -12,10 +12,11 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 	{
 		base.Awake();
 		
+		Worlds = new Dictionary<int, IWorld>();
 		ComponentLookup.Init();
 	}
 
-	protected void Start()
+	private void StartWorlds()
 	{
 		foreach (KeyValuePair<int,IWorld> world in Worlds)
 		{
@@ -50,6 +51,8 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 		}
 		
 		OnWorldsInitialized?.Invoke(this, EventArgs.Empty);
+		
+		StartWorlds();
 	}
 
 	public IWorld GetWorld(int id)
