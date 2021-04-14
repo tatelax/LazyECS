@@ -4,7 +4,7 @@
 	
 	public interface IComponent
 	{
-		bool Set(object value);
+		bool Set(object value = null);
 		object Get();
 	}
 }

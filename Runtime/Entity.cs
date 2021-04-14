@@ -140,7 +140,7 @@ namespace LazyECS.Entity
 			Add<TComponent>();
 		}
 
-		public void Set<TComponent>(object value, bool setFromNetworkMessage = false) where TComponent : IComponent, new()
+		public void Set<TComponent>(object value = null, bool setFromNetworkMessage = false) where TComponent : IComponent, new()
 		{
 			Type compType = typeof(TComponent);
 
@@ -153,7 +153,7 @@ namespace LazyECS.Entity
 			OnComponentSet?.Invoke(this, Components[compType], setFromNetworkMessage);
 		}
 
-		public void Set(int id, object value, bool setFromNetworkMessage = false)
+		public void Set(int id, object value = null, bool setFromNetworkMessage = false)
 		{
 			Type compType = ComponentLookup.Get(id);
 			
