@@ -108,6 +108,51 @@ namespace LazyECS
 				DestroyEntity(entity.Value);
 			}
 		}
+		
+		public Group CreateGroup(GroupType groupType, HashSet<Type> filters)
+		{
+			Group newGroup = new Group(groupType, filters);
+			Groups.Add(newGroup);
+			return newGroup;
+		}
+
+		/// <summary>
+		/// Get a list of entities that have a given component
+		/// </summary>
+		/// <typeparam name="TComponent"></typeparam>
+		/// <returns></returns>
+		public List<Entity.Entity> GetEntities<TComponent>() where TComponent : IComponent
+		{
+			List<Entity.Entity> entitiesWithComponent = new List<Entity.Entity>();
+
+			foreach (KeyValuePair<int,Entity.Entity> entity in Entities)
+			{
+				if(entity.Value.Has<TComponent>())
+					entitiesWithComponent.Add(entity.Value);
+			}
+			
+			return entitiesWithComponent;
+		}
+
+		/// <summary>
+		/// Get a list of entities that have a given component with a specific value
+		/// </summary>
+		/// <param name="value"></param>
+		/// <typeparam name="TComponent"></typeparam>
+		/// <returns></returns>
+		public List<Entity.Entity> GetEntities<TComponent>(object value) where TComponent : IComponent
+		{
+			List<Entity.Entity> entitiesWithComponent = GetEntities<TComponent>();
+			List<Entity.Entity> entitiesWithComponentValue = new List<Entity.Entity>();
+			
+			foreach (Entity.Entity entity in entitiesWithComponent)
+			{
+				if (entity.Get<TComponent>().Get().Equals(value))
+					entitiesWithComponentValue.Add(entity);
+			}
+			
+			return entitiesWithComponentValue;
+		}
 
 		public virtual void OnEntityCreated(Entity.Entity entity, bool entityCreatedFromNetworkMessage)
 		{
@@ -148,13 +193,6 @@ namespace LazyECS
 		public virtual void OnComponentSetOnEntity(Entity.Entity entity, IComponent component, bool setFromNetworkMessage = false)
 		{
 			OnComponentSetOnEntityEvent?.Invoke(entity, component, setFromNetworkMessage);
-		}
-
-		public Group CreateGroup(GroupType groupType, HashSet<Type> filters)
-		{
-			Group newGroup = new Group(groupType, filters);
-			Groups.Add(newGroup);
-			return newGroup;
 		}
 	}
 }
