@@ -11,6 +11,9 @@ LazyECS is an ECS framework designed to be quick to learn and implement while st
 
 # How to Install
 LazyECS can be installed via the Unity Package Manager.
+```
+Window/Package Manager => + Button => "Add package from git URL..." => https://github.com/tatelax/LazyECS.git
+```
 
 # Usage
 
