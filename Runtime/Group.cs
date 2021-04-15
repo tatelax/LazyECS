@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using LazyECS.Component;
-using UnityEngine;
-
 namespace LazyECS
 {
 	public class Group : IGroup
 	{
+		public delegate void OnEntityAdded(Entity.Entity entity);
+		public delegate void OnEntityRemoved(Entity.Entity entity);
+
 		public HashSet<Entity.Entity> Entities { get; }
-		public HashSet<Type> Filters { get; }
+		public HashSet<Type> Filters { get; } // We have to use Type because we aren't storing instances of IComponents, only their type
 		public GroupType GroupType { get; }
+
+		public event OnEntityAdded OnEntityAddedEvent;
+		public event OnEntityRemoved OnEntityRemovedEvent;
 
 		public Group(GroupType groupType, HashSet<Type> filters)
 		{
@@ -33,6 +37,7 @@ namespace LazyECS
 				if (Filters.Contains(component))
 				{
 					Entities.Add(entity);
+					OnEntityAddedEvent?.Invoke(entity);
 					return;
 				}
 			}
@@ -53,6 +58,7 @@ namespace LazyECS
 			if (matches == Filters.Count)
 			{
 				Entities.Add(entity);
+				OnEntityAddedEvent?.Invoke(entity);
 			}
 		}
 
@@ -63,6 +69,7 @@ namespace LazyECS
 				if (Filters.Contains(component))
 				{
 					Entities.Remove(entity);
+					OnEntityRemovedEvent?.Invoke(entity);
 					return;
 				}
 			}
@@ -76,6 +83,7 @@ namespace LazyECS
 			}
 
 			Entities.Remove(entity);
+			OnEntityRemovedEvent?.Invoke(entity);
 		}
 	}
 }

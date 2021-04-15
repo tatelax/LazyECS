@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using LazyECS.Component;
-using LazyECS.Entity;
 
 namespace LazyECS
 {
@@ -13,6 +11,9 @@ namespace LazyECS
 	
 	public interface IGroup
 	{
+		event Group.OnEntityAdded OnEntityAddedEvent;
+		event Group.OnEntityRemoved OnEntityRemovedEvent;
+
 		GroupType GroupType { get; }
 		HashSet<Entity.Entity> Entities { get; }
 		HashSet<Type> Filters { get; }

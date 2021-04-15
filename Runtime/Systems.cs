@@ -6,6 +6,7 @@ namespace LazyECS
 	{
 		protected readonly List<IInitializeSystem> initializeSystems;
 		protected readonly List<IUpdateSystem> updateSystems;
+		protected readonly List<IEventSystem> eventSystems;
 		protected readonly List<ITeardownSystem> teardownSystems;
 		protected readonly List<ICleanupSystem> cleanupSystems;
 
@@ -13,6 +14,7 @@ namespace LazyECS
 		{
 			initializeSystems = new List<IInitializeSystem>();
 			updateSystems = new List<IUpdateSystem>();
+			eventSystems = new List<IEventSystem>();
 			teardownSystems = new List<ITeardownSystem>();
 			cleanupSystems = new List<ICleanupSystem>();
 		}
@@ -28,6 +30,12 @@ namespace LazyECS
 			if (system is IUpdateSystem updateSystem)
 			{
 				updateSystems.Add(updateSystem);
+				return this;
+			}
+
+			if (system is IEventSystem eventSystem)
+			{
+				eventSystems.Add(eventSystem);
 				return this;
 			}
 
