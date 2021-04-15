@@ -21,7 +21,7 @@ namespace LazyECS.Entity
 		public Entity(int _id = default)
 		{
 			//TODO: ID collision checking (proper id generation)
-			id = _id == default ? StaticRandom.Instance.Next(0,999999999) : _id;
+			id = _id;
 
 			Components = new Dictionary<Type, IComponent>();
 		}

@@ -65,7 +65,7 @@ namespace LazyECS
 
 		public Entity.Entity CreateEntity(int id = default, bool entityCreatedFromNetworkMessage = false)
 		{
-			Entity.Entity newEntity = id != default ? new Entity.Entity(id) : new Entity.Entity();
+			Entity.Entity newEntity = id != default ? new Entity.Entity(id) : new Entity.Entity(Entities.Count);
 			
 			Debug.Log("Creating entity with id " + newEntity.id);
 			newEntity.OnComponentAdded += OnComponentAddedToEntity;
