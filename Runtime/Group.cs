@@ -7,6 +7,7 @@ namespace LazyECS
 	{
 		public delegate void OnEntityAdded(Entity.Entity entity);
 		public delegate void OnEntityRemoved(Entity.Entity entity);
+		public delegate void OnEntitySet(Entity.Entity entity);
 
 		public HashSet<Entity.Entity> Entities { get; }
 		public HashSet<Type> Filters { get; } // We have to use Type because we aren't storing instances of IComponents, only their type
@@ -14,12 +15,18 @@ namespace LazyECS
 
 		public event OnEntityAdded OnEntityAddedEvent;
 		public event OnEntityRemoved OnEntityRemovedEvent;
+		public event OnEntitySet OnEntitySetEvent;
 
 		public Group(GroupType groupType, HashSet<Type> filters)
 		{
 			Filters = filters;
 			Entities = new HashSet<Entity.Entity>();
 			GroupType = groupType;
+		}
+
+		public void EntitySet(Entity.Entity entity, Type component)
+		{
+			OnEntitySetEvent?.Invoke(entity);
 		}
 
 		public void EntityDestroyed(Entity.Entity entity)

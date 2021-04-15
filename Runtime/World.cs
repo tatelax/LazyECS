@@ -192,6 +192,11 @@ namespace LazyECS
 
 		public virtual void OnComponentSetOnEntity(Entity.Entity entity, IComponent component, bool setFromNetworkMessage = false)
 		{
+			for (int i = 0; i < Groups.Count; i++)
+			{
+				Groups[i].EntitySet(entity, component.GetType());
+			}
+			
 			OnComponentSetOnEntityEvent?.Invoke(entity, component, setFromNetworkMessage);
 		}
 	}
