@@ -26,7 +26,8 @@ namespace LazyECS
 
 		public void EntitySet(Entity.Entity entity, Type component)
 		{
-			OnEntitySetEvent?.Invoke(entity);
+			if (Entities.Contains(entity) && Filters.Contains(component))
+				OnEntitySetEvent?.Invoke(entity);
 		}
 
 		public void EntityDestroyed(Entity.Entity entity)
