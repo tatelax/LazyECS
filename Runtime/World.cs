@@ -30,6 +30,11 @@ namespace LazyECS
 			Entities = new Dictionary<int, Entity.Entity>();
 			Features = new Feature[]{};
 		}
+
+		public virtual void Initialize()
+		{
+			// Add features here in override
+		}
 		
 		public virtual void Start()
 		{

@@ -50,6 +50,11 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 			Worlds.Add(i, worlds[i]);
 		}
 		
+		foreach (KeyValuePair<int,IWorld> world in Worlds)
+		{
+			world.Value.Initialize();
+		}
+		
 		OnWorldsInitialized?.Invoke(this, EventArgs.Empty);
 		
 		StartWorlds();

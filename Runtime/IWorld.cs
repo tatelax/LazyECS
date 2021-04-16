@@ -20,7 +20,8 @@ namespace LazyECS
 		bool DestroyEntity(int id, bool entityDestroyedFromNetworkMessage = false);
 		bool DestroyEntity(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false);
 		void DestroyAllEntities();
-		
+
+		void Initialize();
 		void Start();
 		void Update();
 		void Teardown();
