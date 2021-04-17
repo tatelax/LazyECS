@@ -68,10 +68,10 @@ namespace LazyECS
 			}
 		}
 
-		public Entity.Entity CreateEntity(int id = default, bool entityCreatedFromNetworkMessage = false)
+		public Entity.Entity CreateEntity(int id = -1, bool entityCreatedFromNetworkMessage = false)
 		{
-			Entity.Entity newEntity = id != default ? new Entity.Entity(id) : new Entity.Entity(Entities.Count);
-			
+			Entity.Entity newEntity = id != -1 ? new Entity.Entity(id) : new Entity.Entity(Entities.Count);
+
 			Debug.Log("Creating entity with id " + newEntity.id);
 			newEntity.OnComponentAdded += OnComponentAddedToEntity;
 			newEntity.OnComponentRemoved += OnComponentRemovedFromEntity;
@@ -95,6 +95,7 @@ namespace LazyECS
 		
 		public bool DestroyEntity(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false)
 		{
+			Debug.Log("Destroy!");
 			if (Entities.ContainsKey(entity.id))
 			{
 				Entities.Remove(entity.id);

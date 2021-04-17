@@ -16,7 +16,7 @@ namespace LazyECS
 		event World.ComponentRemovedFromEntity OnComponentRemovedFromEntityEvent;
 		event World.ComponentSetOnEntity OnComponentSetOnEntityEvent;
 		
-		Entity.Entity CreateEntity(int id = default, bool entityCreatedFromNetworkMessage = false);
+		Entity.Entity CreateEntity(int id = -1, bool entityCreatedFromNetworkMessage = false);
 		bool DestroyEntity(int id, bool entityDestroyedFromNetworkMessage = false);
 		bool DestroyEntity(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false);
 		void DestroyAllEntities();
