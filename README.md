@@ -10,7 +10,7 @@ LazyECS is an ECS framework designed to be quick to learn and implement while st
 * No Unity dependency (Excluding Debug.Log and WorldDebugger)
 
 # How to Install
-LazyECS can be installed via the Unity Package Manager.
+LazyECS can be installed via the Unity Package Manager. This doesn't seem to work on Unity 2020 due to a bug so it can be installed by downloading source and importing as normal.
 ```
 Window/Package Manager => + Button => "Add package from git URL..." => https://github.com/tatelax/LazyECS.git
 ```
