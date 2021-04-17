@@ -105,6 +105,24 @@ class WorldDebugger : EditorWindow
 
 		if (currTab == 0)
 		{
+			if (GUILayout.Button("Collapse", GUILayout.Width(75)))
+			{
+				for (var i = 0; i < worldsFoldoutsState.Length; i++)
+				{
+					worldsFoldoutsState[i] = false;
+				}
+
+				for (var i = 0; i < groupsFoldoutsState.Length; i++)
+				{
+					groupsFoldoutsState[i] = false;
+				}
+
+				for (var i = 0; i < entitiesFoldoutsState.Length; i++)
+				{
+					entitiesFoldoutsState[i] = false;
+				}
+			}
+			
 			int currWorldFoldout = 0;
 
 			scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
