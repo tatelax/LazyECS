@@ -176,7 +176,7 @@ class WorldDebugger : EditorWindow
 
 							label += ")";
 
-							EditorGUILayout.LabelField(label);
+							EditorGUILayout.Foldout(true, label);
 
 							EditorGUI.indentLevel++;
 
