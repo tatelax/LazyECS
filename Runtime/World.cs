@@ -68,7 +68,7 @@ namespace LazyECS
 			}
 		}
 
-		public Entity.Entity CreateEntity(int id = -1, bool entityCreatedFromNetworkMessage = false)
+		public virtual Entity.Entity CreateEntity(int id = -1, bool entityCreatedFromNetworkMessage = false)
 		{
 			Entity.Entity newEntity = id != -1 ? new Entity.Entity(id) : new Entity.Entity(Entities.Count);
 
@@ -82,7 +82,7 @@ namespace LazyECS
 			return newEntity;
 		}
 
-		public bool DestroyEntity(int id, bool entityDestroyedFromNetworkMessage = false)
+		public virtual bool DestroyEntity(int id, bool entityDestroyedFromNetworkMessage = false)
 		{
 			if (!Entities.ContainsKey(id))
 			{
@@ -93,7 +93,7 @@ namespace LazyECS
 			return DestroyEntity(Entities[id], entityDestroyedFromNetworkMessage);
 		}
 		
-		public bool DestroyEntity(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false)
+		public virtual bool DestroyEntity(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false)
 		{
 			Debug.Log("Destroy!");
 			if (Entities.ContainsKey(entity.id))
@@ -107,7 +107,7 @@ namespace LazyECS
 			return false;
 		}
 
-		public void DestroyAllEntities()
+		public virtual void DestroyAllEntities()
 		{
 			foreach (KeyValuePair<int,Entity.Entity> entity in Entities.ToList())
 			{
@@ -115,7 +115,7 @@ namespace LazyECS
 			}
 		}
 		
-		public Group CreateGroup(GroupType groupType, HashSet<Type> filters)
+		public virtual Group CreateGroup(GroupType groupType, HashSet<Type> filters)
 		{
 			Group newGroup = new Group(groupType, filters);
 			Groups.Add(newGroup);
@@ -127,7 +127,7 @@ namespace LazyECS
 		/// </summary>
 		/// <typeparam name="TComponent"></typeparam>
 		/// <returns></returns>
-		public List<Entity.Entity> GetEntities<TComponent>() where TComponent : IComponent
+		public virtual List<Entity.Entity> GetEntities<TComponent>() where TComponent : IComponent
 		{
 			List<Entity.Entity> entitiesWithComponent = new List<Entity.Entity>();
 
@@ -146,7 +146,7 @@ namespace LazyECS
 		/// <param name="value"></param>
 		/// <typeparam name="TComponent"></typeparam>
 		/// <returns></returns>
-		public List<Entity.Entity> GetEntities<TComponent>(object value) where TComponent : IComponent
+		public virtual List<Entity.Entity> GetEntities<TComponent>(object value) where TComponent : IComponent
 		{
 			List<Entity.Entity> entitiesWithComponent = GetEntities<TComponent>();
 			List<Entity.Entity> entitiesWithComponentValue = new List<Entity.Entity>();
