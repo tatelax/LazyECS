@@ -1,16 +1,16 @@
-﻿{
-   "name":"com.kinematic.games.lazyecs",
-   "version":"1.1.1",
-   "displayName":"Lazy ECS",
-   "description":"This is an ECS package for lazy developers.",
-   "unity":"2017.1",
-   "unityRelease":"0b5",
-   "keywords":[
-      "ecs"
-   ],
-   "author":{
-      "name":"Tate McCormick",
-      "email":"tate@kinematic.games",
-      "url":"https://kinematic.games"
-   }
+{
+  "name": "com.kinematic.games.lazyecs",
+  "version": "1.1.2",
+  "displayName": "Lazy ECS",
+  "description": "ECS for lazy devs.",
+  "unity": "2017.1",
+  "keywords": [
+    "ecs",
+    "lazy"
+  ],
+  "author": {
+    "name": "Tate McCormick",
+    "email": "tate@kinematic.games",
+    "url": "https://kinematic.games"
+  }
 }
