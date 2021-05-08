@@ -72,7 +72,6 @@ namespace LazyECS
 		{
 			Entity.Entity newEntity = id != -1 ? new Entity.Entity(id) : new Entity.Entity(Entities.Count);
 
-			Debug.Log("Creating entity with id " + newEntity.id);
 			newEntity.OnComponentAdded += OnComponentAddedToEntity;
 			newEntity.OnComponentRemoved += OnComponentRemovedFromEntity;
 			newEntity.OnComponentSet += OnComponentSetOnEntity;
@@ -171,11 +170,19 @@ namespace LazyECS
 
 		public virtual void OnEntityCreated(Entity.Entity entity, bool entityCreatedFromNetworkMessage)
 		{
+			if (SimulationController.Instance.LogLevel == LogLevel.Verbose)
+				Debug.Log("<color=#00ff00>[LazyECS] Creating entity with id " + entity.id + " in world " + GetType().Name + "</color>");
+			
 			OnEntityCreatedEvent?.Invoke(entity, entityCreatedFromNetworkMessage);
 		}
 
 		public virtual void OnEntityDestroyed(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false)
 		{
+			if (SimulationController.Instance.LogLevel == LogLevel.Verbose)
+			{
+				Debug.Log("<color=#00ff00>[LazyECS] " + $"{entity.id} was <b>DESTROYED</b> in world {GetType().Name} </color>");
+			}
+			
 			for (int i = 0; i < Groups.Count; i++)
 			{
 				Groups[i].EntityDestroyed(entity);
@@ -186,7 +193,11 @@ namespace LazyECS
 
 		public virtual void OnComponentAddedToEntity(Entity.Entity entity, IComponent component)
 		{
-			Debug.Log($"{component.GetType()} was added to {entity.id}");
+			if (SimulationController.Instance.LogLevel == LogLevel.Verbose)
+			{
+				Debug.Log("<color=#00ff00>[LazyECS] " + $"{component.GetType()} was <b>ADDED</b> to entity {entity.id} in world {GetType().Name} </color>");
+			}
+			
 			for (int i = 0; i < Groups.Count; i++)
 			{
 				Groups[i].ComponentAddedToEntity(entity, component.GetType());
@@ -197,6 +208,9 @@ namespace LazyECS
 
 		public virtual void OnComponentRemovedFromEntity(Entity.Entity entity, IComponent component)
 		{
+			if (SimulationController.Instance.LogLevel == LogLevel.Verbose)
+				Debug.Log("<color=#00ff00>[LazyECS] " + $"{component.GetType()} was <b>REMOVED</b> from entity {entity.id} in world {GetType().Name} </color>");
+			
 			for (int i = 0; i < Groups.Count; i++)
 			{
 				Groups[i].ComponentRemovedFromEntity(entity, component.GetType());
@@ -207,6 +221,9 @@ namespace LazyECS
 
 		public virtual void OnComponentSetOnEntity(Entity.Entity entity, IComponent component, bool setFromNetworkMessage = false)
 		{
+			if (SimulationController.Instance.LogLevel == LogLevel.Verbose)
+				Debug.Log("<color=#00ff00>[LazyECS] " + $"{component.GetType()} was <b>SET</b> on entity {entity.id} in world {GetType().Name} </color>");
+			
 			for (int i = 0; i < Groups.Count; i++)
 			{
 				Groups[i].EntitySet(entity, component.GetType());

@@ -129,8 +129,25 @@ class WorldDebugger : EditorWindow
 
 			foreach (KeyValuePair<int, IWorld> world in simulationController.Worlds)
 			{
+				GUIStyle worldFoldoutStyle = new GUIStyle(EditorStyles.foldout);
+
+				if (world.Value.GetType().BaseType.Name == "NetworkWorld")
+				{
+					Color networkWorldFoldoutColor = new Color(0, 204, 255);
+					worldFoldoutStyle.normal.textColor = networkWorldFoldoutColor;
+					worldFoldoutStyle.onNormal.textColor = networkWorldFoldoutColor;
+					worldFoldoutStyle.hover.textColor = networkWorldFoldoutColor;
+					worldFoldoutStyle.onHover.textColor = networkWorldFoldoutColor;
+					worldFoldoutStyle.focused.textColor = networkWorldFoldoutColor;
+					worldFoldoutStyle.onFocused.textColor = networkWorldFoldoutColor;
+					worldFoldoutStyle.active.textColor = networkWorldFoldoutColor;
+					worldFoldoutStyle.onActive.textColor = networkWorldFoldoutColor;
+				}
+				
 				string worldFoldoutName = world.Value.GetType().Name
-				                          + " (Groups: "
+				                          + "(ID: "
+				                          + world.Key
+				                          + ", Groups: "
 				                          + world.Value.Groups.Count
 				                          + ", Entities: "
 				                          + world.Value.Entities.Count
@@ -138,7 +155,7 @@ class WorldDebugger : EditorWindow
 				                          + world.Value.Features.Length
 				                          + ")";
 
-				worldsFoldoutsState[currWorldFoldout] = EditorGUILayout.Foldout(worldsFoldoutsState[currWorldFoldout], worldFoldoutName, EditorStyles.foldout);
+				worldsFoldoutsState[currWorldFoldout] = EditorGUILayout.Foldout(worldsFoldoutsState[currWorldFoldout], worldFoldoutName, worldFoldoutStyle);
 
 				if (worldsFoldoutsState[currWorldFoldout])
 				{
@@ -200,7 +217,22 @@ class WorldDebugger : EditorWindow
 
 							foreach (KeyValuePair<Type, IComponent> component in entity.Value.Components)
 							{
-								EditorGUILayout.Foldout(true, component.Key.Name);
+								GUIStyle networkComponentFoldoutStyle = new GUIStyle(EditorStyles.foldout);
+
+								if (component.Key.GetInterface("INetworkComponent") != null)
+								{
+									Color networkComponentColor = new Color(0, 204, 255);
+									networkComponentFoldoutStyle.normal.textColor = networkComponentColor;
+									networkComponentFoldoutStyle.onNormal.textColor = networkComponentColor;
+									networkComponentFoldoutStyle.hover.textColor = networkComponentColor;
+									networkComponentFoldoutStyle.onHover.textColor = networkComponentColor;
+									networkComponentFoldoutStyle.focused.textColor = networkComponentColor;
+									networkComponentFoldoutStyle.onFocused.textColor = networkComponentColor;
+									networkComponentFoldoutStyle.active.textColor = networkComponentColor;
+									networkComponentFoldoutStyle.onActive.textColor = networkComponentColor;
+								}
+								
+								EditorGUILayout.Foldout(true, component.Key.Name, networkComponentFoldoutStyle);
 								EditorGUI.indentLevel++;
 
 								if (component.Value.Get() == null) continue;

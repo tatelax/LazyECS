@@ -2,9 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using LazyECS;
+using UnityEngine;
+
+public enum LogLevel
+{
+	None,
+	Verbose
+}
 
 public class SimulationController : MonoBehaviourSingleton<SimulationController>
 {
+	[SerializeField] private LogLevel logLevel;
+	public LogLevel LogLevel => logLevel;
+
 	public Dictionary<int, IWorld> Worlds { get; private set; }
 	public event EventHandler OnWorldsInitialized;
 
