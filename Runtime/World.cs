@@ -131,6 +131,16 @@ namespace LazyECS
 		}
 
 		/// <summary>
+		/// Returns an entity with a specific ID
+		/// </summary>
+		/// <param name="id">The ID of the entity you want</param>
+		/// <returns></returns>
+		public Entity.Entity GetEntity(int id)
+		{
+			return Entities[id];
+		}
+
+		/// <summary>
 		/// Get a list of entities that have a given component
 		/// </summary>
 		/// <typeparam name="TComponent"></typeparam>
