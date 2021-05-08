@@ -94,7 +94,6 @@ namespace LazyECS
 		
 		public virtual bool DestroyEntity(Entity.Entity entity, bool entityDestroyedFromNetworkMessage = false)
 		{
-			Debug.Log("Destroy!");
 			if (Entities.ContainsKey(entity.id))
 			{
 				Entities.Remove(entity.id);
