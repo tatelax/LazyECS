@@ -7,7 +7,7 @@ namespace LazyECS
 	{
 		public delegate void OnEntityAdded(Entity.Entity entity);
 		public delegate void OnEntityRemoved(Entity.Entity entity);
-		public delegate void OnEntitySet(Entity.Entity entity);
+		public delegate void OnEntitySet(Entity.Entity entity, Type component);
 
 		public HashSet<Entity.Entity> Entities { get; }
 		public HashSet<Type> Filters { get; } // We have to use Type because we aren't storing instances of IComponents, only their type
@@ -27,7 +27,7 @@ namespace LazyECS
 		public void EntitySet(Entity.Entity entity, Type component)
 		{
 			if (Entities.Contains(entity) && Filters.Contains(component))
-				OnEntitySetEvent?.Invoke(entity);
+				OnEntitySetEvent?.Invoke(entity, component);
 		}
 
 		public void EntityDestroyed(Entity.Entity entity)
