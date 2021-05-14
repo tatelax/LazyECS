@@ -30,6 +30,7 @@ namespace LazyECS
 		Group CreateGroup(GroupType groupType, HashSet<Type> filters, bool checkExisting = true);
 		
 		LazyECS.Entity.Entity GetEntity(int id);
+		List<LazyECS.Entity.Entity> GetEntities();
 		List<Entity.Entity> GetEntities<TComponent>() where TComponent : IComponent;
 		List<Entity.Entity> GetEntities<TComponent>(object value) where TComponent : IComponent;
 		

@@ -139,6 +139,18 @@ namespace LazyECS
 			return Entities[id];
 		}
 
+		public List<Entity.Entity> GetEntities()
+		{
+			List<Entity.Entity> entities = new List<Entity.Entity>();
+			
+			foreach (KeyValuePair<int,Entity.Entity> entity in Entities)
+			{
+				entities.Add(entity.Value);	
+			}
+			
+			return entities;
+		}
+
 		/// <summary>
 		/// Get a list of entities that have a given component
 		/// </summary>
