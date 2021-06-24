@@ -232,7 +232,7 @@ class WorldDebugger : EditorWindow
 									networkComponentFoldoutStyle.onActive.textColor = networkComponentColor;
 								}
 								
-								EditorGUILayout.Foldout(true, component.Key.Name, networkComponentFoldoutStyle);
+								EditorGUILayout.Foldout(true, component.Key.Name + " (" + component.Value.Get().GetType().Name + ")", networkComponentFoldoutStyle);
 								EditorGUI.indentLevel++;
 
 								if (component.Value.Get() == null) continue;
@@ -270,7 +270,7 @@ class WorldDebugger : EditorWindow
 										EditorGUILayout.ObjectField((GameObject) component.Value.Get(), typeof(GameObject), true);
 										break;
 									case "String[]":
-										EditorGUILayout.SelectableLabel(CreateStringArrayDisplayLabel((string[])component.Value.Get()));
+										EditorGUILayout.SelectableLabel(CreateStringArrayDisplayLabel((string[])component.Value.Get()), GUILayout.Height(15));
 										break;
 									default:
 										EditorGUILayout.SelectableLabel(component.Value.Get().GetType().Name + " (Custom editor needed to display value)", GUILayout.Height(15));
