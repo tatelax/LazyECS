@@ -269,6 +269,9 @@ class WorldDebugger : EditorWindow
 									case "GameObject":
 										EditorGUILayout.ObjectField((GameObject) component.Value.Get(), typeof(GameObject), true);
 										break;
+									case "String[]":
+										EditorGUILayout.SelectableLabel(CreateStringArrayDisplayLabel((string[])component.Value.Get()));
+										break;
 									default:
 										EditorGUILayout.SelectableLabel(component.Value.Get().GetType().Name + " (Custom editor needed to display value)", GUILayout.Height(15));
 										break;
@@ -288,5 +291,20 @@ class WorldDebugger : EditorWindow
 
 			EditorGUILayout.EndScrollView();
 		}
+	}
+	
+	private string CreateStringArrayDisplayLabel(string[] data)
+	{
+		string labelValue = "";
+										
+		for (var i = 0; i < data.Length; i++)
+		{
+			labelValue += i + ": " + data[i];
+
+			if (i != data.Length - 1)
+				labelValue += ", ";
+		}
+
+		return labelValue;
 	}
 }
