@@ -7,7 +7,7 @@ LazyECS is an ECS framework designed to be quick to learn and implement while st
 * No codegen
 * Simple
 * Easy to learn (faster onboarding)
-* No Unity dependency (Excluding Debug.Log and [WorldDebugger](https://github.com/tatelax/LazyECS/wiki/World-Debugger))
+* No Unity dependency (Excluding Debug.Log used in the source code and [WorldDebugger](https://github.com/tatelax/LazyECS/wiki/World-Debugger))
 
 # How to Install
 LazyECS can be installed via the Unity Package Manager or by downloading from GitHub and importing into your project.
