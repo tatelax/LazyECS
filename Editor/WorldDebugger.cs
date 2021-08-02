@@ -217,22 +217,37 @@ class WorldDebugger : EditorWindow
 
 							foreach (KeyValuePair<Type, IComponent> component in entity.Value.Components)
 							{
-								GUIStyle networkComponentFoldoutStyle = new GUIStyle(EditorStyles.foldout);
+								GUIStyle foldoutStyle = new GUIStyle(EditorStyles.foldout);
 
 								if (component.Key.GetInterface("INetworkComponent") != null)
 								{
 									Color networkComponentColor = new Color(0, 204, 255);
-									networkComponentFoldoutStyle.normal.textColor = networkComponentColor;
-									networkComponentFoldoutStyle.onNormal.textColor = networkComponentColor;
-									networkComponentFoldoutStyle.hover.textColor = networkComponentColor;
-									networkComponentFoldoutStyle.onHover.textColor = networkComponentColor;
-									networkComponentFoldoutStyle.focused.textColor = networkComponentColor;
-									networkComponentFoldoutStyle.onFocused.textColor = networkComponentColor;
-									networkComponentFoldoutStyle.active.textColor = networkComponentColor;
-									networkComponentFoldoutStyle.onActive.textColor = networkComponentColor;
+									foldoutStyle.normal.textColor = networkComponentColor;
+									foldoutStyle.onNormal.textColor = networkComponentColor;
+									foldoutStyle.hover.textColor = networkComponentColor;
+									foldoutStyle.onHover.textColor = networkComponentColor;
+									foldoutStyle.focused.textColor = networkComponentColor;
+									foldoutStyle.onFocused.textColor = networkComponentColor;
+									foldoutStyle.active.textColor = networkComponentColor;
+									foldoutStyle.onActive.textColor = networkComponentColor;
 								}
+
+								string componentValue;
+
+								if (component.Value.Get() == null)
+									componentValue = "NULL";
+								else
+									componentValue = component.Value.Get().GetType().Name;
+
+								string componentName;
+
+								if (component.Key == null)
+									componentName = "NULL";
+								else
+									componentName = component.Key.Name;	
 								
-								EditorGUILayout.Foldout(true, component.Key.Name + " (" + component.Value.Get().GetType().Name + ")", networkComponentFoldoutStyle);
+								
+								EditorGUILayout.Foldout(true, componentName + " (" + componentValue + ")", foldoutStyle);
 								EditorGUI.indentLevel++;
 
 								if (component.Value.Get() == null) continue;
