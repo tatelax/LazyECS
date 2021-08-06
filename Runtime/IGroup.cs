@@ -9,15 +9,22 @@ namespace LazyECS
 		All
 	}
 	
+	public enum EventType
+	{
+		Added,
+		Set,
+		Removed,
+		All
+	}
+	
 	public interface IGroup
 	{
-		event Group.OnEntityAdded OnEntityAddedEvent;
-		event Group.OnEntityRemoved OnEntityRemovedEvent;
-		event Group.OnEntitySet OnEntitySetEvent;
-			
 		GroupType GroupType { get; }
 		HashSet<Entity.Entity> Entities { get; }
 		HashSet<Type> Filters { get; }
+		EventType EventType { get; }
+		
+		event Group.OnEntityUpdate OnEntityUpdateEvent;
 		
 		void EntitySet(Entity.Entity entity, Type component);
 		void EntityDestroyed(Entity.Entity entity);

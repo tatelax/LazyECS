@@ -113,16 +113,22 @@ namespace LazyECS
 			}
 		}
 		
-		public virtual Group CreateGroup(GroupType groupType, HashSet<Type> filters, bool checkExisting = true)
+		public virtual Group CreateGroup(GroupType groupType, HashSet<Type> filters, EventType _eventType, Group.OnEntityUpdate OnEntityUpdate, bool checkExisting = true)
 		{
-			Group newGroup = new Group(groupType, filters);
+			Group newGroup = new Group(groupType, filters, _eventType, OnEntityUpdate);
 			Groups.Add(newGroup);
 
 			if (checkExisting)
 			{
 				foreach (KeyValuePair<int,Entity.Entity> entity in Entities)
 				{
-					newGroup.ComponentAddedToEntity(entity.Value, entity.Value.GetType());
+					foreach (Type filter in filters)
+					{
+						if (entity.Value.Has(filter))
+						{
+							newGroup.ComponentAddedToEntity(entity.Value, filter);
+						}
+					}
 				}
 			}
 			

@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using LazyECS.Component;
+using System.Linq;
+
 namespace LazyECS
 {
 	public class Group : IGroup
 	{
-		public delegate void OnEntityAdded(Entity.Entity entity);
-		public delegate void OnEntityRemoved(Entity.Entity entity);
-		public delegate void OnEntitySet(Entity.Entity entity, Type component);
+		public delegate void OnEntityUpdate(EventType _eventType, Entity.Entity entity, Type component);
 
 		public HashSet<Entity.Entity> Entities { get; }
 		public HashSet<Type> Filters { get; } // We have to use Type because we aren't storing instances of IComponents, only their type
 		public GroupType GroupType { get; }
+		public EventType EventType { get; }
 
-		public event OnEntityAdded OnEntityAddedEvent;
-		public event OnEntityRemoved OnEntityRemovedEvent;
-		public event OnEntitySet OnEntitySetEvent;
+		public event OnEntityUpdate OnEntityUpdateEvent;
 
-		public Group(GroupType groupType, HashSet<Type> filters)
+		public Group(GroupType groupType, HashSet<Type> filters, EventType _eventType, OnEntityUpdate onEntityUpdate)
 		{
 			Filters = filters;
+			EventType = _eventType;
+			OnEntityUpdateEvent += onEntityUpdate;
 			Entities = new HashSet<Entity.Entity>();
 			GroupType = groupType;
 		}
@@ -27,7 +27,10 @@ namespace LazyECS
 		public void EntitySet(Entity.Entity entity, Type component)
 		{
 			if (Entities.Contains(entity) && Filters.Contains(component))
-				OnEntitySetEvent?.Invoke(entity, component);
+			{
+				if(EventType == EventType.Set || EventType == EventType.All)
+					OnEntityUpdateEvent?.Invoke(EventType.Set, entity, component);
+			}
 		}
 
 		public void EntityDestroyed(Entity.Entity entity)
@@ -40,58 +43,45 @@ namespace LazyECS
 		{
 			if (Entities.Contains(entity)) return;
 
-			if (GroupType == GroupType.Any)
-			{
-				if (Filters.Contains(component))
-				{
-					Entities.Add(entity);
-					OnEntityAddedEvent?.Invoke(entity);
-					return;
-				}
-			}
-
-			int matches = 0;
-			
-			foreach (KeyValuePair<Type,IComponent> cmp in entity.Components)
-			{
-				foreach (Type filter in Filters)
-				{
-					if (cmp.Key == filter)
-					{
-						matches++;
-					}
-				}
-			}
-
-			if (matches == Filters.Count)
+			if (GroupType == GroupType.Any && Filters.Contains(component))
 			{
 				Entities.Add(entity);
-				OnEntityAddedEvent?.Invoke(entity);
+				
+				if(EventType == EventType.Added || EventType == EventType.All)
+					OnEntityUpdateEvent?.Invoke(EventType.Added, entity, component);
+				
+				return;
 			}
+
+			int matches = entity.Components.Sum(cmp => Filters.Count(filter => cmp.Key == filter));
+
+			if (matches != Filters.Count) return;
+			
+			Entities.Add(entity);
+			
+			if(EventType == EventType.Added || EventType == EventType.All)
+				OnEntityUpdateEvent?.Invoke(EventType.Added, entity, component);
 		}
 
 		public void ComponentRemovedFromEntity(Entity.Entity entity, Type component)
 		{
-			if (GroupType == GroupType.All)
+			if (GroupType == GroupType.All && Filters.Contains(component))
 			{
-				if (Filters.Contains(component))
-				{
-					Entities.Remove(entity);
-					OnEntityRemovedEvent?.Invoke(entity);
-					return;
-				}
+				Entities.Remove(entity);
+				
+				if(EventType == EventType.Removed || EventType == EventType.All)
+					OnEntityUpdateEvent?.Invoke(EventType.Removed, entity, component);
+				
+				return;
 			}
 
-			foreach (KeyValuePair<Type,IComponent> cmp in entity.Components)
-			{
-				if (Filters.Contains(cmp.Key))
-				{
-					return;
-				}
-			}
+			if (entity.Components.Any(cmp => Filters.Contains(cmp.Key)))
+				return;
 
 			Entities.Remove(entity);
-			OnEntityRemovedEvent?.Invoke(entity);
+			
+			if(EventType == EventType.Removed || EventType == EventType.All)
+				OnEntityUpdateEvent?.Invoke(EventType.Removed, entity, component);
 		}
 	}
 }

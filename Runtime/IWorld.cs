@@ -27,8 +27,8 @@ namespace LazyECS
 		void Teardown();
 		void Cleanup();
 		
-		Group CreateGroup(GroupType groupType, HashSet<Type> filters, bool checkExisting = true);
-		
+		Group CreateGroup(GroupType groupType, HashSet<Type> filters, EventType _eventType, Group.OnEntityUpdate OnEntityUpdate, bool checkExisting = true);
+
 		LazyECS.Entity.Entity GetEntity(int id);
 		List<LazyECS.Entity.Entity> GetEntities();
 		List<Entity.Entity> GetEntities<TComponent>() where TComponent : IComponent;
