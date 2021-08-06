@@ -119,8 +119,12 @@ namespace LazyECS
 			Groups.Add(newGroup);
 
 			if (checkExisting)
+				CheckExisting();
+			
+			void CheckExisting()
 			{
-				foreach (KeyValuePair<int,Entity.Entity> entity in Entities)
+				int entityCountAtStart = Entities.Count;
+				foreach (KeyValuePair<int, Entity.Entity> entity in Entities.ToArray())
 				{
 					foreach (Type filter in filters)
 					{
@@ -130,6 +134,10 @@ namespace LazyECS
 						}
 					}
 				}
+
+				// This allows us to run the check for existing again in case entities were added or removed during the foreach loop
+				if (Entities.Count != entityCountAtStart)
+					CheckExisting();
 			}
 			
 			return newGroup;
