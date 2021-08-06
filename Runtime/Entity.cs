@@ -89,6 +89,16 @@ namespace LazyECS.Entity
 		}
 		
 		/// <summary>
+		/// Check if entity has a component by type (param)
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		internal bool Has(Type type)
+		{
+			return Components.ContainsKey(type);
+		}
+		
+		/// <summary>
 		/// Check if entity has a component by id
 		/// </summary>
 		/// <param name="id"></param>
@@ -107,6 +117,8 @@ namespace LazyECS.Entity
 		{
 			return Components.ContainsKey(typeof(TComponent));
 		}
+
+
 		
 		/// <summary>
 		/// Remove component by id
