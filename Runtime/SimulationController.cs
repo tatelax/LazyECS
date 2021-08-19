@@ -53,6 +53,9 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 
 	protected void InitializeWorlds(IWorld[] worlds)
 	{
+		if (worlds.Length > 0)
+			Reset();
+		
 		Worlds = new Dictionary<int, IWorld>();
 		
 		for (int i = 0; i < worlds.Length; i++)
@@ -68,6 +71,16 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 		OnWorldsInitialized?.Invoke(this, EventArgs.Empty);
 		
 		StartWorlds();
+	}
+
+	protected void Reset()
+	{
+		foreach (KeyValuePair<int,IWorld> world in Worlds)
+		{
+			world.Value.Teardown();
+		}
+
+		Worlds = new Dictionary<int, IWorld>();
 	}
 
 	public IWorld GetWorld(int id)
