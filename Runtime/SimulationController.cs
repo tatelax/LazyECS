@@ -83,6 +83,14 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 		Worlds = new Dictionary<int, IWorld>();
 	}
 
+	protected void DestroyAllEntitiesInAllWorlds()
+	{
+		foreach (KeyValuePair<int,IWorld> world in Worlds)
+		{
+			world.Value.DestroyAllEntities();
+		}
+	}
+
 	public IWorld GetWorld(int id)
 	{
 		return Worlds[id];
