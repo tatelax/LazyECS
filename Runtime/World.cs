@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace LazyECS
 {
-	public abstract class World : IWorld
+	public abstract class World : IWorld, IDisposable
 	{
 		public Feature[] Features { get; protected set; }
 		public Dictionary<int, Entity.Entity> Entities { get; } //entity id, actual entity
@@ -29,6 +29,25 @@ namespace LazyECS
 			Groups = new List<Group>();
 			Entities = new Dictionary<int, Entity.Entity>();
 			Features = new Feature[]{};
+		}
+		
+		public void Dispose()
+		{
+			for (int i = 0; i < Groups.Count; i++)
+			{
+				Groups[i].Dispose();
+			}
+			
+			for (int i = 0; i < Entities.Count; i++)
+			{
+				Entities[i].Dispose();
+			}
+
+			OnEntityCreatedEvent = null;
+			OnEntityDestroyedEvent = null;
+			OnComponentAddedToEntityEvent = null;
+			OnComponentRemovedFromEntityEvent = null;
+			OnComponentSetOnEntityEvent = null;
 		}
 
 		public virtual void Initialize()

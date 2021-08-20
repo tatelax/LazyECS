@@ -1,6 +1,6 @@
 {
   "name": "com.kinematic.games.lazyecs",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "displayName": "Lazy ECS",
   "description": "ECS for lazy devs.",
   "unity": "2017.1",

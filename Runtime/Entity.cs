@@ -9,7 +9,7 @@ namespace LazyECS.Entity
 	public delegate void ComponentRemoved(Entity entity, IComponent component);
 	public delegate void ComponentSet(Entity entity, IComponent component, bool setFromNetworkMessage);
 	
-	public class Entity : IEntity
+	public class Entity : IEntity, IDisposable
 	{
 		public int id { get; }
 		public Dictionary<Type, IComponent> Components { get; }
@@ -24,6 +24,13 @@ namespace LazyECS.Entity
 			id = _id;
 
 			Components = new Dictionary<Type, IComponent>();
+		}
+		
+		public void Dispose()
+		{
+			OnComponentAdded = null;
+			OnComponentRemoved = null;
+			OnComponentSet = null;
 		}
 		
 		/// <summary>
@@ -117,8 +124,6 @@ namespace LazyECS.Entity
 		{
 			return Components.ContainsKey(typeof(TComponent));
 		}
-
-
 		
 		/// <summary>
 		/// Remove component by id

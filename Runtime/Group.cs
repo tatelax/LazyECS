@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace LazyECS
 {
-	public class Group : IGroup
+	public class Group : IGroup, IDisposable
 	{
 		public delegate void OnEntityUpdate(EventType _eventType, Entity.Entity entity, Type component);
 
@@ -22,6 +23,11 @@ namespace LazyECS
 			OnEntityUpdateEvent += onEntityUpdate;
 			Entities = new HashSet<Entity.Entity>();
 			GroupType = groupType;
+		}
+
+		public void Dispose()
+		{
+			OnEntityUpdateEvent = null;
 		}
 
 		public void EntitySet(Entity.Entity entity, Type component)
