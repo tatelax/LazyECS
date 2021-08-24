@@ -29,9 +29,11 @@ This addon provides the ability to synchronize entities and their component data
 [Here's an example project in Unity 2019.](https://github.com/tatelax/LazyECSExample)
 
 # Known Issues
+None
 
-* No multi-threading (still plenty of room for optimization without affecting API).
-* No unit tests.
+# To-Do
+* Unit tests
+* Multitthreading
 
 # Important Info
 
