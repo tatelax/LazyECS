@@ -31,11 +31,7 @@ This addon provides the ability to synchronize entities and their component data
 # Known Issues
 
 * No multi-threading (still plenty of room for optimization without affecting API).
-* No way to access components with a specific values easily. It can be done by creating a group and looping through the entities in that group.
-* No "unique" components like in Entitas.
-* Not much error handling.
 * No unit tests.
-
 
 # Important Info
 
