@@ -34,6 +34,7 @@ None
 # To-Do
 * Unit tests
 * Multi-threading
+* Replace classes with structs where possible
 
 # Important Info
 
