@@ -33,7 +33,7 @@ None
 
 # To-Do
 * Unit tests
-* Multitthreading
+* Multi-threading
 
 # Important Info
 
