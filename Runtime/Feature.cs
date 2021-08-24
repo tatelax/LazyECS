@@ -6,22 +6,22 @@
 
 		public void Initialize()
 		{
-			Systems.Initialize();
+			Systems?.Initialize();
 		}
 
 		public void Update()
 		{
-			Systems.Update();
+			Systems?.Update();
 		}
 
 		public void Teardown()
 		{
-			Systems.Teardown();
+			Systems?.Teardown();
 		}
 		
 		public void Cleanup()
 		{
-			Systems.Cleanup();
+			Systems?.Cleanup();
 		}
 	}
 }
