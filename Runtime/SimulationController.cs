@@ -78,8 +78,7 @@ public class SimulationController : MonoBehaviourSingleton<SimulationController>
 		foreach (KeyValuePair<int,IWorld> world in Worlds)
 		{
 			world.Value.Teardown();
-			IDisposable disposableWorld = (IDisposable)world.Value;
-			disposableWorld.Dispose();
+			(world.Value as IDisposable).Dispose();
 		}
 
 		Worlds = new Dictionary<int, IWorld>();

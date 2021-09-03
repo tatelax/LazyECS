@@ -35,12 +35,12 @@ namespace LazyECS
 		{
 			for (int i = 0; i < Groups.Count; i++)
 			{
-				Groups[i].Dispose();
+				Groups[i]?.Dispose();
 			}
 			
-			for (int i = 0; i < Entities.Count; i++)
+			foreach (KeyValuePair<int, Entity.Entity> entity in Entities)
 			{
-				Entities[i].Dispose();
+				entity.Value.Dispose();
 			}
 
 			OnEntityCreatedEvent = null;
