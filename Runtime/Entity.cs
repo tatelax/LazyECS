@@ -161,9 +161,7 @@ namespace LazyECS.Entity
 		{
 			Type compType = typeof(TComponent);
 
-			IComponent component;
-			
-			if (!Components.TryGetValue(compType, out component))
+			if (!Components.TryGetValue(compType, out IComponent component))
 			{
 				component = Add<TComponent>();
 			}
@@ -176,10 +174,8 @@ namespace LazyECS.Entity
 		public void Set(int id, object componentValue = null, bool setFromNetworkMessage = false)
 		{
 			Type compType = ComponentLookup.Get(id);
-			
-			IComponent component;
-			
-			if (!Components.TryGetValue(compType, out component))
+
+			if (!Components.TryGetValue(compType, out IComponent component))
 			{
 				component = Add(id);
 			}
