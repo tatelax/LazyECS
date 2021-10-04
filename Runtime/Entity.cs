@@ -168,7 +168,7 @@ namespace LazyECS.Entity
 			
 			component.Set(componentValue);
 			
-			OnComponentSet?.Invoke(this, Components[compType], setFromNetworkMessage);
+			OnComponentSet?.Invoke(this, component, setFromNetworkMessage);
 		}
 
 		public void Set(int id, object componentValue = null, bool setFromNetworkMessage = false)
@@ -182,7 +182,7 @@ namespace LazyECS.Entity
 			
 			component.Set(componentValue);
 			
-			OnComponentSet?.Invoke(this, Components[compType], setFromNetworkMessage);
+			OnComponentSet?.Invoke(this, component, setFromNetworkMessage);
 		}
 	}
 }
