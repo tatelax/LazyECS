@@ -141,7 +141,7 @@ namespace LazyECS.Entity
 
 			IComponent cachedComponentBeforeRemoval = Components[component];
 			Components.Remove(component);
-			OnComponentRemoved?.Invoke(this, cachedComponentBeforeRemoval);
+			OnComponentRemoved?.Invoke(  this, cachedComponentBeforeRemoval);
 		}
 		
 		public void Remove<TComponent>() where TComponent : IComponent
@@ -157,29 +157,35 @@ namespace LazyECS.Entity
 			Add<TComponent>();
 		}
 
-		public void Set<TComponent>(object value = null, bool setFromNetworkMessage = false) where TComponent : IComponent, new()
+		public void Set<TComponent>(object componentValue = null, bool setFromNetworkMessage = false) where TComponent : IComponent, new()
 		{
 			Type compType = typeof(TComponent);
 
-			if (!Components.ContainsKey(compType))
+			IComponent component;
+			
+			if (!Components.TryGetValue(compType, out component))
 			{
-				Add<TComponent>();
+				component = Add<TComponent>();
 			}
 			
-			Components[compType].Set(value);
+			component.Set(componentValue);
+			
 			OnComponentSet?.Invoke(this, Components[compType], setFromNetworkMessage);
 		}
 
-		public void Set(int id, object value = null, bool setFromNetworkMessage = false)
+		public void Set(int id, object componentValue = null, bool setFromNetworkMessage = false)
 		{
 			Type compType = ComponentLookup.Get(id);
 			
-			if (!Components.ContainsKey(compType))
+			IComponent component;
+			
+			if (!Components.TryGetValue(compType, out component))
 			{
-				Add(id);
+				component = Add(id);
 			}
 			
-			Components[compType].Set(value);
+			component.Set(componentValue);
+			
 			OnComponentSet?.Invoke(this, Components[compType], setFromNetworkMessage);
 		}
 	}
